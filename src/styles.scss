@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+//BOOTSTRAP - Override Primary colour
+//$enable-shadows: true;
+$primary: #1E222D;
+$body-bg: #fff;
+$secondary: #8300d9;
+
+// import bootstrap with default settings
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
