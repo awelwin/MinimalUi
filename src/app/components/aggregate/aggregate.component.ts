@@ -17,7 +17,7 @@ import { FormsModule } from '@angular/forms';
 export class AggregateComponent {
 
   public _entities: Employee[] = [];
-  public _search: string = " sdf";
+  public _search: string = "";
   contructor() { }
 
   /**
