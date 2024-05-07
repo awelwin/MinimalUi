@@ -2,12 +2,8 @@
 <nav class="navbar" role="Navigation">
   <div class="container-fluid">
     <div class="d-flex justify-content-start align-items-center justify-content-center">
-      <a
-       class="nav-link navbar-brand text-dark"
-       type="button"
-       data-bs-toggle="offcanvas"
-       data-bs-target="#sideMenu">
-        <i class="bi bi-justify h1"></i></a> 
+      <a class="nav-link navbar-brand text-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#sideMenu">
+        <i class="bi bi-justify h1"></i></a>
       <a class="navbar-brand text-black logotext" routerlink="">Minimal Ui</a>
     </div>
   </div>
@@ -15,16 +11,16 @@
 
 <!--MAIN CONTENT CONTAINER-->
 <div class="container">
-<div class="row">
-  <div class="col"></div>
-  <div class="col-8 aggregate-container">
-    
-    <!--MAIN CONTENT-->
-    <router-outlet></router-outlet>
-  
+  <div class="row">
+    <div class="col"></div>
+    <div class="col p-4">
+
+      <!--MAIN CONTENT-->
+      <router-outlet></router-outlet>
+
+    </div>
+    <div class="col"></div>"
   </div>
-  <div class="col"></div>"
-</div>
 
 </div>
 

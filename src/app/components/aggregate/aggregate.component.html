@@ -1,1 +1,55 @@
-<p>aggregate content</p>
+<!--Aggregate Container-->
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+            <!--Aggregate Header-->
+            <div class="aggregate-header d-flex justify-content-between p-2 m-0">
+                <div class="aggregate-title">Employee</div>
+                <div> [ {{_entities.length}} ]</div>
+            </div>
+
+            <!--Body-->
+            <div class="aggregate-body p-2">
+                <div class="container">
+
+                    <!--Search-->
+                    <div>
+                        <i class="bi bi-search" mr-5></i>
+                        <input type="text" [(ngModel)]="_search" class="search" placeholder="..." />
+                    </div>
+
+                    <table>
+                        <!---Entities header-->
+                        <tr class="entity-header p-5">
+                            <td class="col entity-header"></td>
+                            <td class="col">Lastname</td>
+                            <td class="col">Firstname</td>
+                            <td class="col">Age</td>
+                            <td class="col"></td>
+                        </tr>
+
+                        <!---Entities body-->
+                        <tr *ngFor="let data of _entities | TableFilter: _search;">
+
+                            <td class="col entity-id">
+                                id:{{data.Id}}
+                            </td>
+                            <td class="col">{{data.Lastname}}</td>
+                            <td class="col">{{data.Firstname}}</td>
+                            <td class="col">{{data.Age}}</td>
+                            <td class="col text-end">
+                                <i class="bi bi-pencil-square"></i>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!--<div *ngFor="let data of _entities;">
+                    <entity-summary [data]="data"></entity-summary>
+                </div-->
+            </div>
+        </div>
+    </div>
+
+</div>

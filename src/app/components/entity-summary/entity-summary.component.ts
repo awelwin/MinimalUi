@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-
+import { Component, Input } from '@angular/core';
+import { Employee } from '../../common/lib/Employee'
 @Component({
   selector: 'entity-summary',
   standalone: true,
@@ -8,5 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './entity-summary.component.scss'
 })
 export class EntitySummaryComponent {
+  @Input() data: Employee = <Employee>{};
 
+  constructor() { }
 }

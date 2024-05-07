@@ -1,0 +1,40 @@
+.aggregate-header {
+    background-color: rgb(221, 221, 221);
+    border-radius: 5px 5px 1px 1px;
+}
+
+.aggregate-title {
+    font-weight: bold;
+}
+
+.aggregate-body {
+    border-width: 0px 3px 3px 3px;
+    border-style: solid;
+    border-color: rgba(128, 128, 128, 0.166);
+
+}
+
+input.search {
+    border: none;
+    border-style: none;
+    opacity: 0.4;
+
+}
+
+input:focus {
+    outline: none;
+}
+
+.entity-id {
+    opacity: 0.4;
+    font-style: italic;
+}
+
+.entity-header {
+    font-weight: bold;
+    text-align: left;
+}
+
+td {
+    padding-right: 30px;
+}

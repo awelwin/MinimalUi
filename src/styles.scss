@@ -7,3 +7,8 @@ $secondary: #8300d9;
 // import bootstrap with default settings
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
+
+body {
+
+    font-family: monospace, monospace;
+}
