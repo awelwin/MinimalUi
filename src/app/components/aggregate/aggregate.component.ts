@@ -51,7 +51,7 @@ export class AggregateComponent {
     <Employee>{
       Id: 2946,
       Firstname: "Christopher",
-      Lastname: "Mclouwski",
+      Lastname: "Mclouwski hoppin burger seeping tree tt",
       Age: 34,
       TaxFile: <TaxFile>{
         Id: 4653,

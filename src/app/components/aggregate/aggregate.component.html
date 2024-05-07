@@ -1,55 +1,74 @@
 <!--Aggregate Container-->
 <div class="container">
     <div class="row">
-        <div class="col">
+
+        <!--Show only on larger screens-->
+        <div class="col aggregate-container m-0 p-0 pb-4 ">
 
             <!--Aggregate Header-->
             <div class="aggregate-header d-flex justify-content-between p-2 m-0">
                 <div class="aggregate-title">Employee</div>
-                <div> [ {{_entities.length}} ]</div>
+                <div class="aggregate-header-count"> [{{_entities.length}}]</div>
             </div>
 
             <!--Body-->
-            <div class="aggregate-body p-2">
-                <div class="container">
+            <div class="container aggregate-body text-nowrap">
 
-                    <!--Search-->
-                    <div>
-                        <i class="bi bi-search" mr-5></i>
-                        <input type="text" [(ngModel)]="_search" class="search" placeholder="..." />
-                    </div>
-
-                    <table>
-                        <!---Entities header-->
-                        <tr class="entity-header p-5">
-                            <td class="col entity-header"></td>
-                            <td class="col">Lastname</td>
-                            <td class="col">Firstname</td>
-                            <td class="col">Age</td>
-                            <td class="col"></td>
-                        </tr>
-
-                        <!---Entities body-->
-                        <tr *ngFor="let data of _entities | TableFilter: _search;">
-
-                            <td class="col entity-id">
-                                id:{{data.Id}}
-                            </td>
-                            <td class="col">{{data.Lastname}}</td>
-                            <td class="col">{{data.Firstname}}</td>
-                            <td class="col">{{data.Age}}</td>
-                            <td class="col text-end">
-                                <i class="bi bi-pencil-square"></i>
-                            </td>
-                        </tr>
-                    </table>
+                <!--Search-->
+                <div class="text-start ">
+                    <i class="bi bi-search" mr-5></i>
+                    <input type="text" [(ngModel)]="_search" class="search" placeholder="..." />
                 </div>
 
-                <!--<div *ngFor="let data of _entities;">
-                    <entity-summary [data]="data"></entity-summary>
-                </div-->
-            </div>
-        </div>
-    </div>
+                <!-------------------------SMALLER DEVICES ONLY-------------------------------->
+                <div class="container d-md-none m-0">
 
-</div>
+                    <div *ngFor="let data of _entities | TableFilter: _search;" class="row align-top">
+                        <hr>
+                        <div class="col-10 overflow-hidden">
+                            <span class="entity-header p-1">Lastname</span>
+                            <span class="entity-item">{{data.Lastname}}</span><br>
+                            <span class="entity-header p-1">Firstname</span>
+                            <span class="entity-item">{{data.Firstname}}</span><br>
+                            <span class="entity-header p-1">Age</span>
+                            <span class="entity-item">{{data.Age}}</span>
+                        </div>
+                        <div class="col-2">
+                            <span class="entity-id small">{{data.Id}}</span><br>
+                            <i class="bi bi-pencil-square entity-item-action"></i>
+                            <i class="bi bi-x-square entity-item-action"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!---------------------------------------------------------------------------------->
+
+            <div class="container d-none d-sm-none d-md-block">
+                <!---Entities header-->
+                <div class="row entity-header">
+                    <div class="col-1 entity-header"></div>
+                    <div class="col-3">Lastname</div>
+                    <div class="col-3">Firstname</div>
+                    <div class="col-3">Age</div>
+                    <div class="col-1"></div>
+                </div>
+
+                <!---Entities body-->
+                <div *ngFor="let data of _entities | TableFilter: _search;" class="row align-top">
+                    <hr>
+                    <div class="col-1 entity-id overflow-hidden small">{{data.Id}} </div>
+                    <div class="col-3 entity-item">{{data.Lastname}}</div>
+                    <div class="col-3 entity-item">{{data.Firstname}}</div>
+                    <div class="col-3 entity-item">{{data.Age}}</div>
+                    <div class="col-1 entity-item">
+                        <div class="d-flex ">
+                            <i class="bi bi-pencil-square entity-item-action"></i>
+                            <i class="bi bi-x-square entity-item-action"></i>
+                        </div>
+                    </div>
+                </div><!--Entities body-->
+            </div> <!--Entities Container-->
+        </div><!--Aggregate Body-->
+    </div>
+</div> <!--Aggregate Container-->

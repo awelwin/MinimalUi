@@ -1,17 +1,83 @@
-.aggregate-header {
-    background-color: rgb(221, 221, 221);
-    border-radius: 5px 5px 1px 1px;
+@import "../../../../node_modules/bootstrap/scss/mixins/breakpoints";
+@import "../../../../node_modules/bootstrap/scss/functions";
+@import "../../../../node_modules/bootstrap/scss/variables";
+
+/// SMALL SCREENS ONLY
+@include media-breakpoint-down(md) {
+    .aggregate-container {
+        text-wrap: wrap;
+    }
+
+    .entity-item {
+        font-style: italic;
+        opacity: 0.5;
+        margin-left: 10px;
+
+    }
+}
+
+// MEDIUM AND LARGE SCREENS
+@include media-breakpoint-up(md) {
+    .aggregate-container {
+        border-width: 3px 3px 3px 3px;
+        border-style: solid;
+        border-color: rgba(128, 128, 128, 0.166);
+        border-radius: 10px;
+    }
+
+    .entity-item {
+        //font-style: italic;
+        opacity: 0.5;
+        overflow: hidden;
+        text-wrap: nowrap;
+        max-width: 100%;
+
+    }
+}
+
+.entity-id {
+    opacity: 0.4;
+    font-style: italic;
+}
+
+input:focus {
+    outline: none;
+}
+
+.entity-header {
+    font-weight: bold;
+    text-align: left;
+}
+
+hr {
+    border-top: 2px dotted;
+    opacity: 0.1;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+
+}
+
+.entity-item-action {
+    padding-right: 10px;
+
+}
+
+input:focus {
+    outline: none;
+}
+
+
+.entity-header {
+    font-weight: bold;
+    text-align: left;
+}
+
+.aggregate-header-count {
+    opacity: 0.4;
 }
 
 .aggregate-title {
     font-weight: bold;
-}
-
-.aggregate-body {
-    border-width: 0px 3px 3px 3px;
-    border-style: solid;
-    border-color: rgba(128, 128, 128, 0.166);
-
 }
 
 input.search {
@@ -21,20 +87,18 @@ input.search {
 
 }
 
-input:focus {
-    outline: none;
-}
-
-.entity-id {
+.aggregate-header-count {
     opacity: 0.4;
-    font-style: italic;
 }
 
-.entity-header {
+.aggregate-title {
     font-weight: bold;
-    text-align: left;
 }
 
-td {
-    padding-right: 30px;
+
+input.search {
+    border: none;
+    border-style: none;
+    opacity: 0.4;
+
 }
