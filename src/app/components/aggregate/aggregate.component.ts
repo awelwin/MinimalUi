@@ -2,7 +2,6 @@ import { Employee } from '../../common/lib/Employee';
 import { TaxFile } from '../../common/lib/TaxFile';
 import { TaxFileRecord } from '../../common/lib/TaxFileRecord';
 import { Component } from '@angular/core';
-import { EntitySummaryComponent } from '../entity-summary/entity-summary.component';
 import { CommonModule } from '@angular/common';
 import { TableFilter } from '../../pipes/TableFilterPipe';
 import { FormsModule } from '@angular/forms';
@@ -10,30 +9,31 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmActionComponent } from '../../common/components/yes-no-action/yes-no-action.component';
 import { ModalActionType } from '../../common/lib/ModalActionType';
 import { YesNoModalAction } from '../../common/lib/ModalAction';
-import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { AggregateService } from './aggregate-service';
 
 @Component({
   selector: 'aggregate',
   standalone: true,
-  imports: [EntitySummaryComponent, CommonModule, TableFilter, FormsModule],
+  imports: [CommonModule, TableFilter, FormsModule],
   templateUrl: './aggregate.component.html',
   styleUrl: './aggregate.component.scss'
 })
 export class AggregateComponent {
-
-  public _entities: Employee[] = [];
+  public test: string = "";
+  public _entities: any[] = [];
   public _search: string = "";
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, private aggregateService: AggregateService<Employee>) {
+    this.aggregateService.initialize("Employee");
+  }
 
   /**
-   * Delete entity
+   * confirm delete
    * @param id entity id
    */
   deleteConfirm(id: number) {
 
     //open modal 
     const modalRef = this.modalService.open(ConfirmActionComponent, { size: "sm", centered: true });
-    //let options: NgbModalOptions = { size: "sm", modalDialogClass:"modal"} 
 
     //configure modal
     let action: YesNoModalAction = new YesNoModalAction(
@@ -56,7 +56,7 @@ export class AggregateComponent {
    * 
    */
   delete(id: number) {
-    alert('Deleting Employee: ' + id)
+
   }
 
   /**
@@ -64,49 +64,10 @@ export class AggregateComponent {
  */
   ngOnInit() {
 
-    //SAMPLE MOCK DATA
-    this._entities = <Employee[]>[<Employee>{
-      Id: 2945,
-      Firstname: "Alex",
-      Lastname: "Elwin",
-      Age: 34,
-      TaxFile: <TaxFile>{
-        Id: 4652,
-        Alias: "Alex Tax File",
-        TaxFileRecords: <TaxFileRecord[]>
-          [
-            <TaxFileRecord>
-            {
-              Id: 42,
-              TaxFileId: 4652,
-              FinancialYear: 1999,
-              AmountPaid: 335,
-              AmountClaimed: 465
-            }
-          ]
-      }
-    },
+    //get aggregate from service
+    this.aggregateService.initialize("Employee");
+    this.aggregateService.list<Employee>().subscribe(data => this._entities = data);
+    console.log(this._entities);
 
-    <Employee>{
-      Id: 2946,
-      Firstname: "Christopher",
-      Lastname: "Mclouwski hoppin burger seeping tree tt",
-      Age: 34,
-      TaxFile: <TaxFile>{
-        Id: 4653,
-        Alias: "Alex Tax File",
-        TaxFileRecords: <TaxFileRecord[]>
-          [
-            <TaxFileRecord>
-            {
-              Id: 44,
-              TaxFileId: 4653,
-              FinancialYear: 1455,
-              AmountPaid: 3322,
-              AmountClaimed: 0
-            }
-          ]
-      }
-    }]
   }
 }

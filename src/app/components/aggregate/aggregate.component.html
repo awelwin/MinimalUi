@@ -27,14 +27,14 @@
                         <hr>
                         <div class="col-10 overflow-hidden">
                             <span class="entity-header p-1">Lastname</span>
-                            <span class="entity-item">{{data.Lastname}}</span><br>
+                            <span class="entity-item">{{data.lastname}}</span><br>
                             <span class="entity-header p-1">Firstname</span>
-                            <span class="entity-item">{{data.Firstname}}</span><br>
+                            <span class="entity-item">{{data.firstname}}</span><br>
                             <span class="entity-header p-1">Age</span>
-                            <span class="entity-item">{{data.Age}}</span>
+                            <span class="entity-item">{{data.age}}</span>
                         </div>
                         <div class="col-2">
-                            <span class="entity-id small">{{data.Id}}</span><br>
+                            <span class="entity-id small">{{data.id}}</span><br>
                             <i class="bi bi-pencil-square entity-item-action"></i>
                             <i class="bi bi-x-square entity-item-action"></i>
                         </div>
@@ -57,14 +57,14 @@
                 <!---Entities body-->
                 <div *ngFor="let data of _entities | TableFilter: _search;" class="row align-top">
                     <hr>
-                    <div class="col-1 entity-id overflow-hidden small">{{data.Id}} </div>
-                    <div class="col-3 entity-item">{{data.Lastname}}</div>
-                    <div class="col-3 entity-item">{{data.Firstname}}</div>
-                    <div class="col-3 entity-item">{{data.Age}}</div>
+                    <div class="col-1 entity-id overflow-hidden small">{{data.id}} </div>
+                    <div class="col-3 entity-item">{{data.lastname}}</div>
+                    <div class="col-3 entity-item">{{data.firstname}}</div>
+                    <div class="col-3 entity-item">{{data.age}}</div>
                     <div class="col-1 entity-item">
                         <div class="d-flex ">
                             <i class="bi bi-pencil-square entity-item-action"></i>
-                            <i class="bi bi-x-square entity-item-action" (click)=deleteConfirm(data.Id)></i>
+                            <i class="bi bi-x-square entity-item-action" (click)=deleteConfirm(data.id)></i>
                         </div>
                     </div>
                 </div><!--Entities body-->
