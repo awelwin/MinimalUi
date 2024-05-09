@@ -1,3 +1,7 @@
+/// <reference types="@angular/localize" />
+
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 //Import other modules
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/components/app/app.component';
@@ -7,7 +11,8 @@ import { routes } from './app/app.routes';
 bootstrapApplication(
   AppComponent,
   {
-    providers: [provideRouter(routes)]
-  }
+    providers: [provideRouter(routes), NgbActiveModal]
+  },
+
 )
   .catch((err) => console.error(err));

@@ -6,6 +6,11 @@ import { EntitySummaryComponent } from '../entity-summary/entity-summary.compone
 import { CommonModule } from '@angular/common';
 import { TableFilter } from '../../pipes/TableFilterPipe';
 import { FormsModule } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmActionComponent } from '../../common/components/yes-no-action/yes-no-action.component';
+import { ModalActionType } from '../../common/lib/ModalActionType';
+import { YesNoModalAction } from '../../common/lib/ModalAction';
+import { NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'aggregate',
@@ -18,7 +23,41 @@ export class AggregateComponent {
 
   public _entities: Employee[] = [];
   public _search: string = "";
-  contructor() { }
+  constructor(private modalService: NgbModal) { }
+
+  /**
+   * Delete entity
+   * @param id entity id
+   */
+  deleteConfirm(id: number) {
+
+    //open modal 
+    const modalRef = this.modalService.open(ConfirmActionComponent, { size: "sm", centered: true });
+    //let options: NgbModalOptions = { size: "sm", modalDialogClass:"modal"} 
+
+    //configure modal
+    let action: YesNoModalAction = new YesNoModalAction(
+      "Note: This action may not be reversable",
+      "Confirm Delete",
+      ModalActionType.Delete,
+      id
+    );
+    modalRef.componentInstance.yesNoModalAction = action;
+
+    //listen results
+    modalRef.closed.subscribe(result => {
+      if (result != null) {
+        this.delete(result)
+      }
+    });
+  }
+
+  /**
+   * 
+   */
+  delete(id: number) {
+    alert('Deleting Employee: ' + id)
+  }
 
   /**
  * Angular component OnInit 
