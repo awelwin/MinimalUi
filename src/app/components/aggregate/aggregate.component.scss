@@ -27,7 +27,7 @@
 
     .entity-item {
         //font-style: italic;
-        opacity: 0.5;
+        //color: rgba(128, 128, 128, 0.678);
         overflow: hidden;
         text-wrap: nowrap;
         max-width: 100%;
@@ -35,9 +35,18 @@
     }
 }
 
+.entity-item-action {
+    padding-right: 10px;
+    cursor: pointer;
+    color: black;
+}
+
+.entity-item-action-delete {
+    color: red;
+}
+
 .entity-id {
-    opacity: 0.4;
-    font-style: italic;
+    font-weight: bold;
 }
 
 input:focus {
@@ -57,12 +66,6 @@ hr {
 
 }
 
-.entity-item-action {
-    padding-right: 10px;
-    cursor: pointer;
-
-}
-
 input:focus {
     outline: none;
 }
@@ -102,4 +105,17 @@ input.search {
     border-style: none;
     opacity: 0.4;
 
+}
+
+.entity-row:hover {
+    background: black;
+    color: white !important;
+    opacity: 0.6 !important;
+
+
+}
+
+.entity-row {
+    color: rgba(128, 128, 128, 0.678);
+    font-style: italic;
 }
