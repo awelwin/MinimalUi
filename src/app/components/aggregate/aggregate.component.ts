@@ -55,12 +55,17 @@ export class AggregateComponent {
   }
 
   /**
-   * 
+   * delete row
    */
   delete(id: number) {
-
+    this.aggregateService.delete(id)
+      .subscribe(
+        {
+          next: (res) => { this._entities = this._entities.filter(i => i.id !== id); },
+          error: (err) => { }
+        }
+      );
   }
-
   /**
    * 
    * @param id User clicks on an aggregate entity row

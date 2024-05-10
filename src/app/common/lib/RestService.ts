@@ -77,7 +77,7 @@ export class RestService {
      * Delete entity
      * @param id id of resource to delete
      */
-    public delete<T>(resourceName: string, id: number): Observable<HttpEvent<any>> {
+    public delete(resourceName: string, id: number): Observable<HttpEvent<any>> {
         let url = this._serviceUri + resourceName + "/" + id;
         return this._http.delete<HttpEvent<any>>(url, this.requestOptions);
     }

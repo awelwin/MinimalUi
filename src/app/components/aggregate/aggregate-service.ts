@@ -2,6 +2,7 @@
 import { Observable } from "rxjs";
 import { RestService } from "../../common/lib/RestService";
 import { Injectable } from "@angular/core";
+import { HttpEvent } from "@angular/common/http";
 
 /**
  * Please Ensure setEntityName() is called to initialize service.
@@ -20,6 +21,11 @@ export class AggregateService<T> {
     list<T>(): Observable<T[]> {
         return this.restService.get<T>(this.verifyEntityName());
     }
+
+    delete(id: number): Observable<HttpEvent<any>> {
+        return this.restService.delete(this.verifyEntityName(), id);
+    }
+
 
     /**
      * DUE TO LIMITATION WITH TYPESCRIPT GENERICS WE CANT GET TypeName of T which is used for mapping Entity --> Rest Resource
