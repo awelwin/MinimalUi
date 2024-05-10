@@ -53,8 +53,8 @@
                             </div>
                         </div>
                         <!-- row data-->
-                        <div class="col-4 entity-item">{{data.lastname}}</div>
-                        <div class="col-3 entity-item">{{data.firstname}}</div>
+                        <div class="col-4 entity-item text-truncate">{{data.lastname}}</div>
+                        <div class="col-3 entity-item text-truncate">{{data.firstname}}</div>
                         <div class="col-3 entity-item">{{data.age}}</div>
 
                     </div><!--row-->
@@ -63,19 +63,30 @@
                 <!-------------------------SMALLER DEVICES ONLY-------------------------------->
                 <div class="container d-md-none m-0">
 
+                    <!--row-->
                     <div *ngFor="let data of _entities | TableFilter: _search;" class="row align-top">
                         <hr>
-                        <div class="col-10 overflow-hidden">
-                            <span class="entity-header p-1">Lastname</span>
-                            <span class="entity-item">{{data.lastname}}</span><br>
-                            <span class="entity-header p-1">Firstname</span>
-                            <span class="entity-item">{{data.firstname}}</span><br>
-                            <span class="entity-header p-1">Age</span>
-                            <span class="entity-item">{{data.age}}</span>
-                        </div>
-                        <div class="col-2">
+                        <div class="col-10">
 
-                            <!--Menu-->
+                            <!--row content-->
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-5 entity-header ">Lastname</div>
+                                    <div class="col-7 entity-item text-truncate">{{data.lastname}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5 entity-header ">Firstname</div>
+                                    <div class="col-7 entity-item text-truncate">{{data.firstname}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5 entity-header ">Age</div>
+                                    <div class="col-7 entity-item text-truncate">{{data.age}}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--row Menu-->
+                        <div class="col-2">
                             <div dropleft>
                                 <div class="dropdown-toggle entity-item-action" data-bs-toggle="dropdown"
                                     aria-expanded="false">

@@ -10,9 +10,8 @@
 
     .entity-item {
         font-style: italic;
-        opacity: 0.5;
-        margin-left: 10px;
-
+        color: rgba(128, 128, 128, 0.678);
+        text-overflow: ellipsis;
     }
 }
 
@@ -26,12 +25,9 @@
     }
 
     .entity-item {
-        //font-style: italic;
-        //color: rgba(128, 128, 128, 0.678);
-        overflow: hidden;
+        font-style: italic;
         text-wrap: nowrap;
         max-width: 100%;
-
     }
 }
 
