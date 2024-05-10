@@ -35,27 +35,8 @@
     }
 }
 
-.entity-item-action {
-    padding-right: 10px;
-    cursor: pointer;
-    color: black;
-}
-
-.entity-item-action-delete {
-    color: red;
-}
-
-.entity-id {
-    font-weight: bold;
-}
-
 input:focus {
     outline: none;
-}
-
-.entity-header {
-    font-weight: bold;
-    text-align: left;
 }
 
 hr {
@@ -107,15 +88,29 @@ input.search {
 
 }
 
-.entity-row:hover {
-    background: black;
-    color: white !important;
-    opacity: 0.6 !important;
-
-
+.entity-id {
+    font-weight: bold;
 }
 
 .entity-row {
     color: rgba(128, 128, 128, 0.678);
     font-style: italic;
+}
+
+.entity-row-selected {
+    color: white;
+    font-style: italic;
+    background-color: rgba(128, 128, 128, 0.678);
+}
+
+.entity-item-action {
+    padding-right: 10px;
+    cursor: pointer;
+    color: black;
+    font-style: normal;
+    text-align: center;
+}
+
+.entity-item-action-delete {
+    color: red;
 }

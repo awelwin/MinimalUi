@@ -19,9 +19,11 @@ import { AggregateService } from './aggregate-service';
   styleUrl: './aggregate.component.scss'
 })
 export class AggregateComponent {
-  public test: string = "";
+
   public _entities: any[] = [];
   public _search: string = "";
+  _selectedEntityId: number = 0;
+
   constructor(private modalService: NgbModal, private aggregateService: AggregateService<Employee>) {
     this.aggregateService.initialize("Employee");
   }
@@ -58,6 +60,15 @@ export class AggregateComponent {
   delete(id: number) {
 
   }
+
+  /**
+   * 
+   * @param id User clicks on an aggregate entity row
+   */
+  rowClicked(id: number) {
+    this._selectedEntityId = id;
+  }
+
 
   /**
  * Angular component OnInit 

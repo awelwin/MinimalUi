@@ -20,6 +20,46 @@
                     <input type="text" [(ngModel)]="_search" class="search" placeholder="..." />
                 </div>
 
+                <!--Search Results Container-->
+                <div class="container d-none d-sm-none d-md-block">
+                    <!---Header-->
+                    <div class="row entity-header">
+                        <div class="col-2 entity-header"></div>
+                        <div class="col-4">Lastname</div>
+                        <div class="col-3">Firstname</div>
+                        <div class="col-3">Age</div>
+                    </div>
+
+                    <!---row-->
+                    <div *ngFor="let data of _entities | TableFilter: _search;"
+                        [ngClass]="_selectedEntityId == data.id ? 'row align-top entity-row-selected' : 'row align-top entity-row'"
+                        (click)=rowClicked(data.id)>
+                        <hr>
+
+                        <!-- ID -->
+                        <div class="col-2 entity-id overflow-hidden small">
+
+                            <!--ID Menu-->
+                            <div dropright>
+                                <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{data.id}}
+                                </div>
+                                <ul class="dropdown-menu">
+                                    <li class="entity-item-action">edit</li>
+                                    <li class="entity-item-action entity-item-action-delete"
+                                        (click)=deleteConfirm(data.id)>
+                                        delete</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- row data-->
+                        <div class="col-4 entity-item">{{data.lastname}}</div>
+                        <div class="col-3 entity-item">{{data.firstname}}</div>
+                        <div class="col-3 entity-item">{{data.age}}</div>
+
+                    </div><!--row-->
+                </div> <!--Search Results Container-->
+
                 <!-------------------------SMALLER DEVICES ONLY-------------------------------->
                 <div class="container d-md-none m-0">
 
@@ -34,42 +74,25 @@
                             <span class="entity-item">{{data.age}}</span>
                         </div>
                         <div class="col-2">
-                            <span class="entity-id small">{{data.id}}</span><br>
-                            <i class="bi bi-pencil-square entity-item-action"></i>
-                            <i class="bi bi-x-square entity-item-action"></i>
+
+                            <!--Menu-->
+                            <div dropleft>
+                                <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{data.id}}
+                                </div>
+                                <ul class="dropdown-menu">
+                                    <li class="entity-item-action">edit</li>
+                                    <li class="entity-item-action entity-item-action-delete"
+                                        (click)=deleteConfirm(data.id)>
+                                        delete</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <!---------------------------------------------------------------------------------->
 
-            <div class="container d-none d-sm-none d-md-block">
-                <!---Entities header-->
-                <div class="row entity-header">
-                    <div class="col-1 entity-header"></div>
-                    <div class="col-3">Lastname</div>
-                    <div class="col-3">Firstname</div>
-                    <div class="col-3">Age</div>
-                    <div class="col-1"></div>
-                </div>
-
-                <!---Entities body-->
-                <div *ngFor="let data of _entities | TableFilter: _search;" class="row align-top entity-row">
-                    <hr>
-                    <div class="col-1 entity-id overflow-hidden small">{{data.id}} </div>
-                    <div class="col-3 entity-item">{{data.lastname}}</div>
-                    <div class="col-3 entity-item">{{data.firstname}}</div>
-                    <div class="col-3 entity-item">{{data.age}}</div>
-                    <div class="col-1 entity-item">
-                        <div class="d-flex ">
-                            <i class="bi bi-pencil-square entity-item-action"></i>
-                            <i class="bi bi-x-square entity-item-action entity-item-action-delete"
-                                (click)=deleteConfirm(data.id)></i>
-                        </div>
-                    </div>
-                </div><!--Entities body-->
-            </div> <!--Entities Container-->
         </div><!--Aggregate Body-->
     </div>
 </div> <!--Aggregate Container-->
