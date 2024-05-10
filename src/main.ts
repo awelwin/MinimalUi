@@ -13,10 +13,15 @@ import { RestService } from './app/common/lib/RestService';
 import { environment } from './app/environments/environment';
 import { AggregateService } from './app/components/aggregate/aggregate-service';
 import { Employee } from './app/common/lib/Employee';
+import { ErrorService } from './app/common/lib/ErrorService';
 
-//FactoryMethod to provide RestService
+//Factory method for RestService
 export function RestServiceFactory(http: HttpClient, restService: RestService) {
   return new RestService(http, environment.serviceUri);
+}
+//Factory method for ErrorService
+export function ErrorServiceFactory(elementId: string) {
+  return new ErrorService("global-error-service");
 }
 
 //bootstrap this module
@@ -29,6 +34,7 @@ bootstrapApplication(
       provideRouter(routes),
       NgbActiveModal,
       { provide: RestService, useFactory: RestServiceFactory, deps: [HttpClient] },
+      { provide: ErrorService, useFactory: ErrorServiceFactory },
       AggregateService,
       AggregateService<Employee>
     ]

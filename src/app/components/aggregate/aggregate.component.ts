@@ -10,6 +10,7 @@ import { ConfirmActionComponent } from '../../common/components/yes-no-action/ye
 import { ModalActionType } from '../../common/lib/ModalActionType';
 import { YesNoModalAction } from '../../common/lib/ModalAction';
 import { AggregateService } from './aggregate-service';
+import { ErrorService } from '../../common/lib/ErrorService';
 
 @Component({
   selector: 'aggregate',
@@ -24,7 +25,9 @@ export class AggregateComponent {
   public _search: string = "";
   _selectedEntityId: number = 0;
 
-  constructor(private modalService: NgbModal, private aggregateService: AggregateService<Employee>) {
+  constructor(private modalService: NgbModal,
+    private aggregateService: AggregateService<Employee>,
+    private errorService: ErrorService) {
     this.aggregateService.initialize("Employee");
   }
 
@@ -62,7 +65,7 @@ export class AggregateComponent {
       .subscribe(
         {
           next: (res) => { this._entities = this._entities.filter(i => i.id !== id); },
-          error: (err) => { }
+          error: (err) => { this.errorService.show(); }
         }
       );
   }
@@ -82,8 +85,10 @@ export class AggregateComponent {
 
     //get aggregate from service
     this.aggregateService.initialize("Employee");
-    this.aggregateService.list<Employee>().subscribe(data => this._entities = data);
-    console.log(this._entities);
-
+    this.aggregateService.list<Employee>()
+      .subscribe({
+        next: (data) => this._entities = data,
+        error: (err) => this.errorService.show()
+      });
   }
 }
