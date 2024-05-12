@@ -8,7 +8,7 @@
             <!--Aggregate Header-->
             <div class="aggregate-header d-flex justify-content-between p-2 m-0">
                 <div class="aggregate-title">Employee</div>
-                <div class="aggregate-header-count"> [{{_entities.length}}]</div>
+                <div class="aggregate-header-count"> [{{_entities.length}} records]</div>
             </div>
 
             <!--Body-->
@@ -32,12 +32,12 @@
 
                     <!---row-->
                     <div *ngFor="let data of _entities | TableFilter: _search;"
-                        [ngClass]="_selectedEntityId == data.id ? 'row align-top entity-row-selected' : 'row align-top entity-row'"
+                        [ngClass]="_selectedEntity.id == data.id ? 'row align-top entity-row-selected p-0' : 'row align-top entity-row p0'"
                         (click)=rowClicked(data.id)>
                         <hr>
 
                         <!-- ID -->
-                        <div class="col-2 entity-id overflow-hidden small">
+                        <div class="col-2 entity-id overflow-hidden ">
 
                             <!--ID Menu-->
                             <div dropright>
@@ -108,3 +108,6 @@
         </div><!--Aggregate Body-->
     </div>
 </div> <!--Aggregate Container-->
+
+
+<entity *ngIf="this._selectedEntity != null" [data]=this._selectedEntity></entity>

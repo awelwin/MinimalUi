@@ -1,6 +1,50 @@
-<!--{{entity.Id}}
-{{entity.Firstname}}
-{{entity.Age}}
-{{entity.Created | Date 'medium'}}
-{{entity.Updated | Date 'medium'}}
--->
+<div class="container">
+    <div class="row">
+
+        <!--Employee-->
+        <div class="col-12 ">
+            <div class="container ">
+
+                <!--Name-->
+                <div class="row ">
+                    <div class="col entity-header">
+                        <h3>{{data.id}} {{data.firstname}} {{data.lastname}}</h3>
+                    </div>
+                </div>
+                <!--age-->
+                <div class="row ">
+                    <div class="col entity-item">
+                        Age {{data.age}}
+                    </div>
+                </div>
+
+                <!--TaxFile-->
+                <div class="entity-item" [hidden]="data.taxFile == null">{{data.taxFile.alias}}
+                    <span [hidden]="data.taxFile.taxFileRecords == null">
+                        [{{data.taxFile.taxFileRecords.length}} records]</span>
+                </div>
+                <div *ngFor="let tfr of data.taxFile.taxFileRecords" class="p-1">
+                    <i class="bi bi-file-text"></i>
+                    Financial year {{tfr.financialYear}}
+                    Paid (${{tfr.amountPaid}})
+                    Claimed $({{tfr.amountClaimed}})
+
+                    {{tfr.updated | date: "medium"}}
+                    <div class="entity-item-metadata">{{tfr.id}} - {{tfr.created | date: "MMM d, y"}}
+                    </div>
+                </div><!--taxfile-->
+                <hr>
+                <!--metadata-->
+                <div class="row text-end">
+                    <div class="col">
+                        <div class="entity-item-metadata">{{data.id}} - {{data.created | date: "MMM
+                            d, y"}}
+                        </div>
+                        <div class="entity-item-metadata ">{{data.updated | date: "MMM d, y"}}</div>
+                    </div>
+                </div>
+
+            </div><!--container-->
+        </div><!--emplmoyee-->
+    </div>
+</div><!--container-->

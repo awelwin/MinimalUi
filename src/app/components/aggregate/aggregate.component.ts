@@ -1,6 +1,4 @@
 import { Employee } from '../../common/lib/Employee';
-import { TaxFile } from '../../common/lib/TaxFile';
-import { TaxFileRecord } from '../../common/lib/TaxFileRecord';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableFilter } from '../../pipes/TableFilterPipe';
@@ -11,19 +9,20 @@ import { ModalActionType } from '../../common/lib/ModalActionType';
 import { YesNoModalAction } from '../../common/lib/ModalAction';
 import { AggregateService } from './aggregate-service';
 import { ErrorService } from '../../common/lib/ErrorService';
+import { EntityComponent } from '../entity/entity.component';
 
 @Component({
   selector: 'aggregate',
   standalone: true,
-  imports: [CommonModule, TableFilter, FormsModule],
+  imports: [CommonModule, TableFilter, FormsModule, EntityComponent],
   templateUrl: './aggregate.component.html',
   styleUrl: './aggregate.component.scss'
 })
 export class AggregateComponent {
 
-  public _entities: any[] = [];
+  public _entities: Employee[] = [];
   public _search: string = "";
-  _selectedEntityId: number = 0;
+  _selectedEntity!: Employee;
 
   constructor(private modalService: NgbModal,
     private aggregateService: AggregateService<Employee>,
@@ -70,11 +69,10 @@ export class AggregateComponent {
       );
   }
   /**
-   * 
-   * @param id User clicks on an aggregate entity row
+   * select row
    */
   rowClicked(id: number) {
-    this._selectedEntityId = id;
+    this._selectedEntity = this._entities.find(i => i.id == id)!;
   }
 
 
@@ -87,7 +85,10 @@ export class AggregateComponent {
     this.aggregateService.initialize("Employee");
     this.aggregateService.list<Employee>()
       .subscribe({
-        next: (data) => this._entities = data,
+        next: (data) => {
+          this._entities = data;
+          this._selectedEntity = this._entities[0];
+        },
         error: (err) => this.errorService.show()
       });
   }

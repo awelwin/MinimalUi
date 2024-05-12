@@ -9,7 +9,7 @@
     }
 
     .entity-item {
-        font-style: italic;
+        //font-style: italic;
         color: rgba(128, 128, 128, 0.678);
         text-overflow: ellipsis;
     }
@@ -25,7 +25,7 @@
     }
 
     .entity-item {
-        font-style: italic;
+        //font-style: italic;
         text-wrap: nowrap;
         max-width: 100%;
     }
@@ -51,6 +51,8 @@ input:focus {
 .entity-header {
     font-weight: bold;
     text-align: left;
+
+
 }
 
 .aggregate-header-count {
@@ -85,17 +87,20 @@ input.search {
 }
 
 .entity-id {
-    font-weight: bold;
+    //font-weight: bold;
+    cursor: pointer;
+
 }
 
 .entity-row {
     color: rgba(128, 128, 128, 0.678);
-    font-style: italic;
+    //font-style: italic;
+    //font-size: 0.9rem;
 }
 
 .entity-row-selected {
     color: white;
-    font-style: italic;
+    //font-style: italic;
     background-color: rgba(128, 128, 128, 0.678);
 }
 

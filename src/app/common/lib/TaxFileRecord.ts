@@ -2,13 +2,13 @@
 
 export class TaxFileRecord {
 
-    Id: number = 0;
-    FinancialYear: number = 0;
-    AmountPaid: number = 0;
-    AmountClaimed: number = 0;
-    TaxFileId: number = 0;
-    Created: Date = new Date();
-    Updated: Date = new Date();
+    id: number = 0;
+    financialYear: number = 0;
+    amountPaid: number = 0;
+    amountClaimed: number = 0;
+    taxFileId: number = 0;
+    created: Date = new Date();
+    updated: Date = new Date();
 
     constructor() {
 
