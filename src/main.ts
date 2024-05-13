@@ -10,7 +10,7 @@ import { routes } from './app/app.routes';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { RestService } from './app/common/lib/RestService';
-import { environment } from './app/environments/environment';
+import { environment } from './environments/environment';
 import { AggregateService } from './app/components/aggregate/aggregate-service';
 import { Employee } from './app/common/lib/Employee';
 import { ErrorService } from './app/common/lib/ErrorService';

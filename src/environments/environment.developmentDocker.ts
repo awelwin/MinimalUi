@@ -7,6 +7,7 @@ export const environment = {
     production: false,
 
     //MinimalApi
-    serviceUri: "https://localhost:44305",
+    //serviceUri: "https://localhost:44305",
+    serviceUri: "https://developmentDocker"
 
 };
