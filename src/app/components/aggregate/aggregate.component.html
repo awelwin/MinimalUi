@@ -6,9 +6,10 @@
         <div class="col aggregate-container m-0 p-0 pb-4 ">
 
             <!--Aggregate Header-->
-            <div class="aggregate-header d-flex justify-content-between p-2 m-0">
-                <div class="aggregate-title">Employee</div>
-                <div class="aggregate-header-count"> [{{_entities.length}} records]</div>
+            <div class="aggregate-header  p-2 m-0">
+                <div class="aggregate-title">
+                    <h1>Employee</h1>
+                </div>
             </div>
 
             <!--Body-->
@@ -16,8 +17,11 @@
 
                 <!--Search-->
                 <div class="text-start ">
-                    <i class="bi bi-search" mr-5></i>
-                    <input type="text" [(ngModel)]="_search" class="search" placeholder="..." />
+
+                    <div class="search">
+                        <i class="bi bi-search"></i>
+                        <input type="text" [(ngModel)]="_search" class="search-text" />
+                    </div>
                 </div>
 
                 <!--Search Results Container-->

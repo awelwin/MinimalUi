@@ -23,11 +23,30 @@ export class AggregateComponent {
   public _entities: Employee[] = [];
   public _search: string = "";
   _selectedEntity!: Employee;
+  _selectedIndex: number = 0;
 
   constructor(private modalService: NgbModal,
     private aggregateService: AggregateService<Employee>,
     private errorService: ErrorService) {
     this.aggregateService.initialize("Employee");
+  }
+
+
+  /**
+ * Angular component OnInit 
+ */
+  ngOnInit() {
+
+    //get aggregate from service
+    this.aggregateService.initialize("Employee");
+    this.aggregateService.list<Employee>()
+      .subscribe({
+        next: (data) => {
+          this._entities = data;
+          this._selectedEntity = this._entities[0];
+        },
+        error: (err) => this.errorService.show()
+      });
   }
 
   /**
@@ -73,23 +92,5 @@ export class AggregateComponent {
    */
   rowClicked(id: number) {
     this._selectedEntity = this._entities.find(i => i.id == id)!;
-  }
-
-
-  /**
- * Angular component OnInit 
- */
-  ngOnInit() {
-
-    //get aggregate from service
-    this.aggregateService.initialize("Employee");
-    this.aggregateService.list<Employee>()
-      .subscribe({
-        next: (data) => {
-          this._entities = data;
-          this._selectedEntity = this._entities[0];
-        },
-        error: (err) => this.errorService.show()
-      });
   }
 }
