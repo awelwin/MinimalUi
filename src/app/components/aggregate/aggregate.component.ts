@@ -10,6 +10,9 @@ import { EntityComponent } from '../entity/entity.component';
 import { ModalActionType } from '../../common/lib/ModalActionType';
 import { YesNoModalAction } from '../../common/lib/ModalAction';
 import { ConfirmActionComponent } from '../../common/components/yes-no-action/yes-no-action.component';
+import { Subject, Observable, fromEvent, debounceTime } from 'rxjs';
+import { QueryService } from './QueryService';
+import { EmployeeSearchQueryResult } from './EmployeeSearchQueryResult';
 
 @Component({
   selector: 'aggregate',
@@ -20,45 +23,65 @@ import { ConfirmActionComponent } from '../../common/components/yes-no-action/ye
 })
 export class AggregateComponent {
 
-  public _entities: Employee[] = [];
   public _search: string = "";
-  _selectedEntity!: Employee;
+  public _searchResults: EmployeeSearchQueryResult[] = [];
+  public searchSubject: Subject<any> = new Subject();
+
+  _currentEntity!: Employee;
 
   constructor(private modalService: NgbModal,
     private aggregateService: AggregateService<Employee>,
-    private errorService: ErrorService) {
+    private errorService: ErrorService,
+    private queryService: QueryService) {
     this.aggregateService.initialize("Employee");
   }
-
 
   /**
  * Angular component OnInit 
  */
   ngOnInit() {
 
-    //get aggregate from service
-    this.aggregateService.initialize("Employee");
-    this.aggregateService.list<Employee>()
+    //React to search input keystrokes
+    this.searchSubject
+      .pipe(debounceTime(1000))
       .subscribe({
-        next: (data) => {
-          this._entities = data;
-          this._selectedEntity = this._entities[0];
+        next: () => {
+          if (this._search == "")
+            this._searchResults = [];
+          else
+            this.queryService.searchEmployee(this._search)
+              .subscribe({
+                next: (result) => { this._searchResults = result; },
+                error: () => this.errorService.show()
+              });
         },
-        error: (err) => this.errorService.show()
+        error: () => this.errorService.show()
+      });
+
+  }
+  searchDebounce(event: any) {
+    this.searchSubject.next(this._search);
+  }
+
+  /**
+   * sets current entity based on search results clicked
+   */
+  searchResultChosen(id: number) {
+    this.aggregateService.getWithId<Employee>(id)
+      .subscribe({
+        next: (result) => {
+          this._currentEntity = result;
+          this._searchResults = [];
+          this._search = "";
+        },
+        error: () => this.errorService.show()
       });
   }
 
-  /**
-   * select row
-   */
-  rowClicked(id: number) {
-    this._selectedEntity = this._entities.find(i => i.id == id)!;
-  }
 
-  /**
-   * confirm delete
-   * @param id entity id
-   */
+  /* confirm delete
+  * @param id entity id
+  */
   deleteConfirm(id: number) {
 
     //open modal 
@@ -85,14 +108,10 @@ export class AggregateComponent {
    */
   delete(id: number) {
     this.aggregateService.delete(id)
-      .subscribe(
-        {
-          next: (res) => {
-            this._entities = this._entities.filter(i => i.id !== id);
-            this._selectedEntity = null!;
-          },
-          error: (err) => { this.errorService.show(); }
-        }
+      .subscribe({
+        next: (res) => this._currentEntity = null!,
+        error: (err) => this.errorService.show()
+      }
       );
   }
 }

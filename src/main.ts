@@ -14,11 +14,17 @@ import { environment } from './environments/environment';
 import { AggregateService } from './app/components/aggregate/aggregate-service';
 import { Employee } from './app/common/lib/Employee';
 import { ErrorService } from './app/common/lib/ErrorService';
+import { QueryService } from './app/components/aggregate/QueryService';
 
 //Factory method for RestService
 export function RestServiceFactory(http: HttpClient, restService: RestService) {
   return new RestService(http, environment.serviceUri);
 }
+//Factory method for QueryService
+export function QueryServiceFactory(http: HttpClient, restService: QueryService) {
+  return new QueryService(http, environment.serviceUri);
+}
+
 //Factory method for ErrorService
 export function ErrorServiceFactory(elementId: string) {
   return new ErrorService("global-error-service");
@@ -35,6 +41,7 @@ bootstrapApplication(
       NgbActiveModal,
       { provide: RestService, useFactory: RestServiceFactory, deps: [HttpClient] },
       { provide: ErrorService, useFactory: ErrorServiceFactory },
+      { provide: QueryService, useFactory: QueryServiceFactory, deps: [HttpClient] },
       AggregateService,
       AggregateService<Employee>
     ]

@@ -20,9 +20,16 @@
         text-overflow: ellipsis;
     }
 
+    .entity-body {
+
+        padding: 20px;
+        margin: 0px;
+        //border-radius: 5px;
+    }
+
     .search {
         padding-left: 10px;
-        border: 2px solid black;
+        border: 4px solid black;
         border-radius: 10px;
         width: 90%;
         padding-right: 30px;
@@ -34,29 +41,31 @@
 
 // MEDIUM AND LARGE SCREENS
 @include media-breakpoint-up(md) {
-    .aggregate-container {
-        //border-width: 3px 3px 3px 3px;
-        //border-style: solid;
-        //border-color: rgba(128, 128, 128, 0.166);
-        //border-radius: 10px;
-    }
 
     .aggregate-title {
         font-weight: bold;
     }
 
     .entity-item {
-        //font-style: italic;
         text-wrap: nowrap;
         max-width: 100%;
     }
 
     .search {
         padding-left: 10px;
-        border: 2px solid black;
+        border: 4px solid black;
         border-radius: 10px;
-        width: 30%;
+        //width: 30%;
         padding-right: 30px;
+        margin-bottom: 20px;
+    }
+
+    .entity-body {
+        border-width: 1px;
+        border-style: solid;
+        border-color: black;
+        padding: 20px;
+        //border-radius: 5px;
     }
 }
 
@@ -66,10 +75,8 @@ input:focus {
 
 hr {
     border-top: 2px dotted;
-    opacity: 0.1;
-    padding-bottom: 0px;
-    margin-bottom: 0px;
-
+    margin: 0px;
+    padding: 0px;
 }
 
 input:focus {
@@ -92,14 +99,6 @@ input:focus {
     font-weight: bold;
 }
 
-.search-text {
-    color: rgba(128, 128, 128, 0.678);
-    border: none;
-    display: inline-block;
-    width: 90%;
-    padding-left: 10px
-}
-
 .aggregate-header-count {
     opacity: 0.4;
 }
@@ -120,16 +119,6 @@ input:focus {
     color: white;
     //font-style: italic;
     background-color: rgba(128, 128, 128, 0.678);
-}
-
-
-
-.entity-body {
-    border-width: 1px;
-    border-style: solid;
-    border-color: black;
-    padding: 20px;
-    //border-radius: 5px;
 }
 
 .entity-item-action {
@@ -156,4 +145,18 @@ input:focus {
     padding-left: 10px;
     padding-top: 10px;
 
+}
+
+.search-text {
+    color: rgba(128, 128, 128, 0.678);
+    border: none;
+    display: inline-block;
+    width: 90%;
+    padding-left: 10px
+}
+
+.search-result {
+    color: rgba(128, 128, 128, 0.678);
+    text-overflow: ellipsis;
+    cursor: pointer;
 }

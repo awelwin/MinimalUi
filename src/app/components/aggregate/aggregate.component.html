@@ -1,5 +1,5 @@
 <!--Aggregate Container-->
-<div class="container">
+<div class="container ">
     <div class="row">
 
         <!--Show only on larger screens-->
@@ -7,117 +7,93 @@
 
             <!--Aggregate Header-->
             <div class="aggregate-header  p-2 m-0">
-                <div class="aggregate-title">
+                <div class="aggregate-title text-center">
                     <h1>Employee</h1>
                 </div>
             </div>
 
-            <!--Body-->
-            <div class="container aggregate-body text-nowrap">
+            <!--Main Container-->
+            <div class="container">
 
-                <!--Search-->
-                <div class="text-start ">
+                <div class="row ">
+                    <div class="col">
 
-                    <div class="search">
-                        <i class="bi bi-search"></i>
-                        <input type="text" [(ngModel)]="_search" class="search-text" />
+                        <!--Search-->
+                        <div class="text-start ">
+                            <div class="search">
+                                <i class="bi bi-search"></i>
+                                <input type="text" [(ngModel)]="_search" class="search-text"
+                                    (ngModelChange)="searchDebounce($event)" />
+                            </div>
+                        </div>
+
+                        <!--Search Results Container-->
+                        <div class="container d-none d-sm-none d-md-block  pb-3">
+
+                            <!---row-->
+                            <div *ngFor="let data of _searchResults;" (click)=searchResultChosen(data.id)
+                                class="search-result">
+                                <hr>
+                                <div>{{data.id}} {{data.firstname}},{{data.lastname}} - {{data.id}}
+                                    years </div>
+                            </div><!--row-->
+                        </div> <!--Search Results Container-->
+                    </div><!--col-->
+                </div><!--row-->
+
+                <div class="row">
+                    <div class="col">
+                        <!-------------------------SMALLER DEVICES ONLY-------------------------------->
+                        <div class="container d-md-none m-0 ">
+
+                            <!--row-->
+                            <div *ngFor="let data of _searchResults" (click)=searchResultChosen(data.id)
+                                class="row align-top search-result">
+
+                                <div class="col">
+                                    <hr>
+                                    <div>{{data.id}} {{data.firstname}},{{data.lastname}} - {{data.id}}
+                                        years </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!---------------------------------------------------------------------------------->
                     </div>
                 </div>
 
-                <!--Search Results Container-->
-                <div class="container d-none d-sm-none d-md-block  pb-3">
-                    <!---Header-->
-                    <div class="row entity-item-header ">
-                        <div class="col-1 "></div>
-                        <div class="col-4">Lastname</div>
-                        <div class="col-3">Firstname</div>
-                        <div class="col-3">Age</div>
-                    </div>
 
-                    <!---row-->
-                    <div *ngFor="let data of _entities | TableFilter: _search;"
-                        [ngClass]="_selectedEntity.id == data.id ? 'row align-top entity-row-selected p-0' : 'row align-top entity-row p0'"
-                        (click)=rowClicked(data.id)>
-                        <hr>
-
-                        <!-- ID -->
-                        <div class="col-1">{{data.id}}</div>
-                        <!-- row data-->
-                        <div class="col-4 entity-item text-truncate">{{data.lastname}}</div>
-                        <div class="col-3 entity-item text-truncate">{{data.firstname}}</div>
-                        <div class="col-3 entity-item">{{data.age}}</div>
-
-                    </div><!--row-->
-                </div> <!--Search Results Container-->
-
-                <!-------------------------SMALLER DEVICES ONLY-------------------------------->
-                <div class="container d-md-none m-0">
-
-                    <!--row-->
-                    <div *ngFor="let data of _entities | TableFilter: _search;" class="row align-top">
-                        <hr>
+                <!--Entity Details-->
+                <div *ngIf="this._currentEntity !=null">
+                    <div class="row entity-header ">
                         <div class="col-10">
+                            <h4 class="text-start">{{_currentEntity.id}} {{_currentEntity.firstname}}
+                                {{_currentEntity.lastname}}</h4>
+                        </div>
+                        <div class="col text-end">
 
-                            <!--row content-->
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-5 entity-item-header ">Lastname</div>
-                                    <div class="col-7 entity-item text-truncate">{{data.lastname}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-5 entity-item-header ">Firstname</div>
-                                    <div class="col-7 entity-item text-truncate">{{data.firstname}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-5 entity-item-header ">Age</div>
-                                    <div class="col-7 entity-item text-truncate">{{data.age}}</div>
+                            <!--Entity Menu-->
+                            <div class="overflow-hidden entity-menu dropleft">
+                                <div id="dropdown">
+                                    <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    </div>
+                                    <ul class="dropdown-menu">
+
+                                        <li class="entity-item-action entity-item-action-delete"
+                                            (click)=deleteConfirm(_currentEntity.id)>
+                                            delete</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <!---------------------------------------------------------------------------------->
 
-            <div class="container" [hidden]="_selectedEntity == null">
-                <div class="row">
-
-                    <!--Employee-->
-                    <div class="col-6 entity-container  ">
-                        <div class="container">
-
-                            <!--Name-->
-                            <div class="row entity-header">
-                                <div class="col-10">
-                                    <h4 class="text-start">{{_selectedEntity.id}} {{_selectedEntity.firstname}}
-                                        {{_selectedEntity.lastname}}</h4>
-                                </div>
-                                <div class="col text-end">
-
-                                    <!--Entity Menu-->
-                                    <div class="overflow-hidden entity-menu dropleft">
-                                        <div id="dropdown">
-                                            <div class="dropdown-toggle" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                            </div>
-                                            <ul class="dropdown-menu">
-
-                                                <li class="entity-item-action entity-item-action-delete"
-                                                    (click)=deleteConfirm(_selectedEntity.id)>
-                                                    delete</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row entity-body p-2">
-                                <entity [data]=this._selectedEntity></entity>
-                            </div>
-                        </div><!--container-->
-                    </div><!--emplmoyee-->
+                    <div class="row entity-body p-2">
+                        <entity [data]=this._currentEntity></entity>
+                    </div>
                 </div>
             </div><!--container-->
+
         </div><!--Aggregate Body-->
     </div>
 </div> <!--Aggregate Container-->

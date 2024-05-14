@@ -13,11 +13,14 @@ export class AggregateService<T> {
     _entityName: string = "";
     constructor(private restService: RestService) { }
 
-    /**
-     * 
-     * @param entityName 
-     * @returns 
-     */
+    /** Get entity by id */
+    getWithId<T>(id: number): Observable<T> {
+        return this.restService.getWithId<T>(id, this.verifyEntityName());
+    }
+
+    /* @param entityName 
+    * @returns 
+    */
     list<T>(): Observable<T[]> {
         return this.restService.get<T>(this.verifyEntityName());
     }
