@@ -25,10 +25,10 @@
                 </div>
 
                 <!--Search Results Container-->
-                <div class="container d-none d-sm-none d-md-block">
+                <div class="container d-none d-sm-none d-md-block  pb-3">
                     <!---Header-->
-                    <div class="row entity-header">
-                        <div class="col-2 entity-header"></div>
+                    <div class="row entity-item-header ">
+                        <div class="col-1 "></div>
                         <div class="col-4">Lastname</div>
                         <div class="col-3">Firstname</div>
                         <div class="col-3">Age</div>
@@ -41,21 +41,7 @@
                         <hr>
 
                         <!-- ID -->
-                        <div class="col-2 entity-id overflow-hidden ">
-
-                            <!--ID Menu-->
-                            <div dropright>
-                                <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{data.id}}
-                                </div>
-                                <ul class="dropdown-menu">
-                                    <li class="entity-item-action">edit</li>
-                                    <li class="entity-item-action entity-item-action-delete"
-                                        (click)=deleteConfirm(data.id)>
-                                        delete</li>
-                                </ul>
-                            </div>
-                        </div>
+                        <div class="col-1">{{data.id}}</div>
                         <!-- row data-->
                         <div class="col-4 entity-item text-truncate">{{data.lastname}}</div>
                         <div class="col-3 entity-item text-truncate">{{data.firstname}}</div>
@@ -75,33 +61,17 @@
                             <!--row content-->
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-5 entity-header ">Lastname</div>
+                                    <div class="col-5 entity-item-header ">Lastname</div>
                                     <div class="col-7 entity-item text-truncate">{{data.lastname}}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-5 entity-header ">Firstname</div>
+                                    <div class="col-5 entity-item-header ">Firstname</div>
                                     <div class="col-7 entity-item text-truncate">{{data.firstname}}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-5 entity-header ">Age</div>
+                                    <div class="col-5 entity-item-header ">Age</div>
                                     <div class="col-7 entity-item text-truncate">{{data.age}}</div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <!--row Menu-->
-                        <div class="col-2">
-                            <div dropleft>
-                                <div class="dropdown-toggle entity-item-action" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    {{data.id}}
-                                </div>
-                                <ul class="dropdown-menu">
-                                    <li class="entity-item-action">edit</li>
-                                    <li class="entity-item-action entity-item-action-delete"
-                                        (click)=deleteConfirm(data.id)>
-                                        delete</li>
-                                </ul>
                             </div>
                         </div>
                     </div>
@@ -109,9 +79,45 @@
             </div>
             <!---------------------------------------------------------------------------------->
 
+            <div class="container" [hidden]="_selectedEntity == null">
+                <div class="row">
+
+                    <!--Employee-->
+                    <div class="col-6 entity-container  ">
+                        <div class="container">
+
+                            <!--Name-->
+                            <div class="row entity-header">
+                                <div class="col-10">
+                                    <h4 class="text-start">{{_selectedEntity.id}} {{_selectedEntity.firstname}}
+                                        {{_selectedEntity.lastname}}</h4>
+                                </div>
+                                <div class="col text-end">
+
+                                    <!--Entity Menu-->
+                                    <div class="overflow-hidden entity-menu dropleft">
+                                        <div id="dropdown">
+                                            <div class="dropdown-toggle" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                            </div>
+                                            <ul class="dropdown-menu">
+
+                                                <li class="entity-item-action entity-item-action-delete"
+                                                    (click)=deleteConfirm(_selectedEntity.id)>
+                                                    delete</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row entity-body p-2">
+                                <entity [data]=this._selectedEntity></entity>
+                            </div>
+                        </div><!--container-->
+                    </div><!--emplmoyee-->
+                </div>
+            </div><!--container-->
         </div><!--Aggregate Body-->
     </div>
 </div> <!--Aggregate Container-->
-
-
-<entity *ngIf="this._selectedEntity != null" [data]=this._selectedEntity></entity>

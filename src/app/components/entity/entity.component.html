@@ -1,50 +1,30 @@
-<div class="container">
-    <div class="row">
+<!--age-->
+<div class="col">
+    Age {{data.age}}
+</div>
 
-        <!--Employee-->
-        <div class="col-12 ">
-            <div class="container ">
+<!--TaxFile-->
+<div class="entity-item text-wrap" [hidden]="data.taxFile == null">
 
-                <!--Name-->
-                <div class="row">
-                    <div class="col entity-header">
-                        <h3>{{data.id}} {{data.firstname}} {{data.lastname}}</h3>
-                    </div>
-                </div>
-                <!--age-->
-                <div class="row ">
-                    <div class="col">
-                        Age {{data.age}}
-                    </div>
-                </div>
-
-                <!--TaxFile-->
-                <div class="entity-item" [hidden]="data.taxFile == null">
-
-                    <p [hidden]="data.taxFile.taxFileRecords == null">
-                        {{data.taxFile.alias}}
-                        [{{data.taxFile.taxFileRecords.length}} records]</p>
-                </div>
-                <div *ngFor="let tfr of data.taxFile.taxFileRecords" class="p-1 indent">
-                    <i class="bi bi-file-text"></i>
-                    Financial year <span class="entity-item">{{tfr.financialYear}}</span>
-                    Paid <span class="entity-item">${{tfr.amountPaid}}</span>
-                    Claimed <span class="entity-item">${{tfr.amountClaimed}}</span>
-                    <div class="entity-item-metadata">{{tfr.id}} - {{tfr.created | date: "MMM d, y"}}
-                    </div>
-                </div><!--taxfile-->
-
-                <!--metadata-->
-                <div class="row text-end">
-                    <div class="col">
-                        <div class="entity-item-metadata">{{data.id}} - {{data.created | date: "MMM
-                            d, y"}}
-                        </div>
-                        <div class="entity-item-metadata ">{{data.updated | date: "MMM d, y"}}</div>
-                    </div>
-                </div>
-
-            </div><!--container-->
-        </div><!--emplmoyee-->
+    <p [hidden]="data.taxFile.taxFileRecords == null">
+        {{data.taxFile.alias}}
+        [{{data.taxFile.taxFileRecords.length}} records]</p>
+</div>
+<div *ngFor="let tfr of data.taxFile.taxFileRecords" class="p-1 indent text-wrap">
+    <i class="bi bi-file-text"></i>
+    Financial year <span class="entity-item">{{tfr.financialYear}}</span>
+    Paid <span class="entity-item">${{tfr.amountPaid}}</span>
+    Claimed <span class="entity-item">${{tfr.amountClaimed}}</span>
+    <div class="entity-item-metadata">{{tfr.id}} - {{tfr.created | date: "MMM d, y"}}
     </div>
-</div><!--container-->
+</div><!--taxfile-->
+
+<!--metadata-->
+<div class="row text-end">
+    <div class="col">
+        <div class="entity-item-metadata">{{data.id}} - {{data.created | date: "MMM
+            d, y"}}
+        </div>
+        <div class="entity-item-metadata ">{{data.updated | date: "MMM d, y"}}</div>
+    </div>
+</div>

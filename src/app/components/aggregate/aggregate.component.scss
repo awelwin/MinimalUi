@@ -77,7 +77,7 @@ input:focus {
 }
 
 
-.entity-header {
+.entity-item-header {
     font-weight: bold;
     text-align: left;
 
@@ -122,6 +122,16 @@ input:focus {
     background-color: rgba(128, 128, 128, 0.678);
 }
 
+
+
+.entity-body {
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    padding: 20px;
+    //border-radius: 5px;
+}
+
 .entity-item-action {
     padding-right: 10px;
     cursor: pointer;
@@ -132,4 +142,18 @@ input:focus {
 
 .entity-item-action-delete {
     color: red;
+}
+
+.entity-menu {
+    cursor: pointer;
+}
+
+.entity-header {
+    font-weight: bold;
+    text-align: left;
+    background-color: black;
+    color: white;
+    padding-left: 10px;
+    padding-top: 10px;
+
 }

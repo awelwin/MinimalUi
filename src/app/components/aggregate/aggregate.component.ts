@@ -4,12 +4,12 @@ import { CommonModule } from '@angular/common';
 import { TableFilter } from '../../pipes/TableFilterPipe';
 import { FormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmActionComponent } from '../../common/components/yes-no-action/yes-no-action.component';
-import { ModalActionType } from '../../common/lib/ModalActionType';
-import { YesNoModalAction } from '../../common/lib/ModalAction';
 import { AggregateService } from './aggregate-service';
 import { ErrorService } from '../../common/lib/ErrorService';
 import { EntityComponent } from '../entity/entity.component';
+import { ModalActionType } from '../../common/lib/ModalActionType';
+import { YesNoModalAction } from '../../common/lib/ModalAction';
+import { ConfirmActionComponent } from '../../common/components/yes-no-action/yes-no-action.component';
 
 @Component({
   selector: 'aggregate',
@@ -23,7 +23,6 @@ export class AggregateComponent {
   public _entities: Employee[] = [];
   public _search: string = "";
   _selectedEntity!: Employee;
-  _selectedIndex: number = 0;
 
   constructor(private modalService: NgbModal,
     private aggregateService: AggregateService<Employee>,
@@ -47,6 +46,13 @@ export class AggregateComponent {
         },
         error: (err) => this.errorService.show()
       });
+  }
+
+  /**
+   * select row
+   */
+  rowClicked(id: number) {
+    this._selectedEntity = this._entities.find(i => i.id == id)!;
   }
 
   /**
@@ -74,7 +80,6 @@ export class AggregateComponent {
       }
     });
   }
-
   /**
    * delete row
    */
@@ -82,15 +87,12 @@ export class AggregateComponent {
     this.aggregateService.delete(id)
       .subscribe(
         {
-          next: (res) => { this._entities = this._entities.filter(i => i.id !== id); },
+          next: (res) => {
+            this._entities = this._entities.filter(i => i.id !== id);
+            this._selectedEntity = null!;
+          },
           error: (err) => { this.errorService.show(); }
         }
       );
-  }
-  /**
-   * select row
-   */
-  rowClicked(id: number) {
-    this._selectedEntity = this._entities.find(i => i.id == id)!;
   }
 }
