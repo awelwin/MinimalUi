@@ -43,7 +43,7 @@ export class AggregateComponent {
 
     //React to search input keystrokes
     this.searchSubject
-      .pipe(debounceTime(1000))
+      .pipe(debounceTime(700))
       .subscribe({
         next: () => {
           if (this._search == "")
