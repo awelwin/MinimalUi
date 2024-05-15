@@ -26,7 +26,7 @@ export class AggregateComponent {
   public _search: string = "";
   public _searchResults: EmployeeSearchQueryResult[] = [];
   public searchSubject: Subject<any> = new Subject();
-
+  public _searchNoResult: boolean = false;
   _currentEntity!: Employee;
 
   constructor(private modalService: NgbModal,
@@ -34,6 +34,7 @@ export class AggregateComponent {
     private errorService: ErrorService,
     private queryService: QueryService) {
     this.aggregateService.initialize("Employee");
+
   }
 
   /**
@@ -46,14 +47,20 @@ export class AggregateComponent {
       .pipe(debounceTime(700))
       .subscribe({
         next: () => {
-          if (this._search == "")
+          if (this._search == "") {
             this._searchResults = [];
-          else
+            this._searchNoResult = false;
+          }
+          else {
             this.queryService.searchEmployee(this._search)
               .subscribe({
-                next: (result) => { this._searchResults = result; },
+                next: (result) => {
+                  this._searchResults = result; //save results                 
+                  this._searchNoResult = this._searchResults.length < 1;
+                },
                 error: () => this.errorService.show()
               });
+          }
         },
         error: () => this.errorService.show()
       });
@@ -73,6 +80,7 @@ export class AggregateComponent {
           this._currentEntity = result;
           this._searchResults = [];
           this._search = "";
+          this._searchNoResult = false;
         },
         error: () => this.errorService.show()
       });

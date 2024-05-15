@@ -1,3 +1,6 @@
+<a tabindex="0" class="btn btn-lg btn-danger" role="button" data-bs-toggle="popover" data-bs-trigger="focus"
+    data-bs-title="Dismissible popover"
+    data-bs-content="And here's some amazing content. It's very engaging. Right?">Dismissible popover</a>
 <!--Aggregate Container-->
 <div class="container ">
     <div class="row">
@@ -23,20 +26,23 @@
                             <div class="search">
                                 <i class="bi bi-search"></i>
                                 <input type="text" [(ngModel)]="_search" class="search-text"
-                                    (ngModelChange)="searchDebounce($event)" />
+                                    (ngModelChange)="searchDebounce($event)" placeholder="...  " />
                             </div>
                         </div>
 
                         <!--Search Results Container-->
                         <div class="container d-none d-sm-none d-md-block  pb-3">
 
-                            <!---row-->
+                            <!--No Results-->
+                            <div *ngIf="_searchNoResult" class="search-result">no results</div>
+
+                            <!--Results Found-->
                             <div *ngFor="let data of _searchResults;" (click)=searchResultChosen(data.id)
                                 class="search-result">
                                 <hr>
                                 <div>{{data.id}} {{data.firstname}},{{data.lastname}} - {{data.id}}
                                     years </div>
-                            </div><!--row-->
+                            </div>
                         </div> <!--Search Results Container-->
                     </div><!--col-->
                 </div><!--row-->
@@ -46,7 +52,10 @@
                         <!-------------------------SMALLER DEVICES ONLY-------------------------------->
                         <div class="container d-md-none m-0 pb-3">
 
-                            <!--row-->
+                            <!--No Results-->
+                            <div *ngIf="_searchNoResult" class="search-result">no results</div>
+
+                            <!--results-->
                             <div *ngFor="let data of _searchResults" (click)=searchResultChosen(data.id)
                                 class="row align-top search-result">
 
