@@ -1,18 +1,19 @@
-import { Employee } from '../../common/lib/Employee';
-import { Component } from '@angular/core';
+import { Employee } from '../../lib/Employee';
+import { Component, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableFilter } from '../../pipes/TableFilterPipe';
 import { FormsModule } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AggregateService } from './aggregate-service';
-import { ErrorService } from '../../common/lib/ErrorService';
+import { ErrorService } from '../../services/ErrorService';
 import { EntityComponent } from '../entity/entity.component';
-import { ModalActionType } from '../../common/lib/ModalActionType';
-import { YesNoModalAction } from '../../common/lib/ModalAction';
-import { ConfirmActionComponent } from '../../common/components/yes-no-action/yes-no-action.component';
-import { Subject, Observable, fromEvent, debounceTime } from 'rxjs';
+import { ModalActionType } from '../modal/ModalActionType';
+import { YesNoModalAction } from '../modal/ModalAction';
+import { Subject, debounceTime } from 'rxjs';
 import { QueryService } from './QueryService';
 import { EmployeeSearchQueryResult } from './EmployeeSearchQueryResult';
+import { ModalService } from '../modal/ModalService';
+import { YesNoActionComponent } from '../modal/yes-no-action/yes-no-action.component';
+import { ModalServiceFactory } from '../modal/ModalServiceFactory';
 
 @Component({
   selector: 'aggregate',
@@ -29,12 +30,12 @@ export class AggregateComponent {
   public _searchNoResult: boolean = false;
   _currentEntity!: Employee;
 
-  constructor(private modalService: NgbModal,
+  constructor(
     private aggregateService: AggregateService<Employee>,
     private errorService: ErrorService,
-    private queryService: QueryService) {
+    private queryService: QueryService,
+    private modalServiceFactory: ModalServiceFactory) {
     this.aggregateService.initialize("Employee");
-
   }
 
   /**
@@ -92,24 +93,22 @@ export class AggregateComponent {
   */
   deleteConfirm(id: number) {
 
-    //open modal 
-    const modalRef = this.modalService.open(ConfirmActionComponent, { size: "sm", centered: true });
-
-    //configure modal
-    let action: YesNoModalAction = new YesNoModalAction(
-      "Note: This action may not be reversable",
+    //Modal Content
+    let content: YesNoModalAction = new YesNoModalAction(
+      "Note: This action may not be reversablex",
       "Confirm Delete",
       ModalActionType.Delete,
       id
     );
-    modalRef.componentInstance.yesNoModalAction = action;
 
-    //listen results
-    modalRef.closed.subscribe(result => {
-      if (result != null) {
-        this.delete(result)
-      }
+    //Modal
+    let modalInstance: ModalService<YesNoModalAction> = this.modalServiceFactory.create<YesNoModalAction>();
+    modalInstance.modalAcepted.subscribe({
+      next: (data) => this.delete(data!.payload),
+      error: () => this.errorService.show()
     });
+    modalInstance.open(<any>YesNoActionComponent, content);
+
   }
   /**
    * delete row

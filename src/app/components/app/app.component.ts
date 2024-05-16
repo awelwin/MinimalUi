@@ -4,6 +4,7 @@ import { SideMenuComponent } from '../side-menu/side-menu.component';
 import { AggregateComponent } from '../aggregate/aggregate.component';
 
 
+
 @Component({
   selector: 'app-root',
   standalone: true,

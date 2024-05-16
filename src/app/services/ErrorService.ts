@@ -1,9 +1,8 @@
 
-
 /**
  * Global Error Notification Service
  * NOTE: this service uses javascript object 'bootstrap' from 'bootstrap.bundle.min.js'
- * corresponding entry in 'typings.d.ts' allow direct invocation of methods.
+ * 'typings.d.ts' is being used to defind bootstrap object.
  */
 export class ErrorService {
     /**
@@ -16,7 +15,7 @@ export class ErrorService {
     public show() {
 
         const errClient = document.getElementById(this.elementId);
-        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(errClient);
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(errClient!);
         toastBootstrap.show();
     }
 }

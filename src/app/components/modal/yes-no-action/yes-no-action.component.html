@@ -1,0 +1,13 @@
+<!--Head-->
+<div class="modal-header border-0">
+    <h4 class="modal-title border-none">{{data?.title}}</h4>
+</div>
+<!--Body-->
+<div class="modal-body border-0">
+    <p>{{ data?.message }}!</p>
+</div>
+
+<!--Foot-->
+<div class="modal-footer border-0">
+    <button type="button" class="{{buttonClass}}" (click)=(accept())>Confirm</button>
+</div>

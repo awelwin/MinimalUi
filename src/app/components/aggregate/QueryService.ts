@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { RestService } from "../../common/lib/RestService";
+import { RestService } from "../../services/RestService";
 import { EmployeeSearchQueryResult } from "./EmployeeSearchQueryResult";
 import { HttpClient } from "@angular/common/http";
 
