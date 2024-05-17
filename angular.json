@@ -96,7 +96,7 @@
               "buildTarget": "MinimalUi:build:developmentDocker"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "developmentDocker"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
