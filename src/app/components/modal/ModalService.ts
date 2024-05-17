@@ -1,9 +1,10 @@
-import { ComponentRef, EnvironmentInjector, Injector, Type, createComponent } from "@angular/core";
+import { ComponentRef, DestroyRef, EnvironmentInjector, Inject, Injectable, Injector, OnDestroy, Type, createComponent } from "@angular/core";
 import { ApplicationRef } from "@angular/core";
 import { ModalWrapperComponent } from "./modal-wrapper.component";
 import { ModalChildComponent } from "./modal-child.component";
 import { ErrorService } from "../../services/ErrorService";
 import { Subject } from "rxjs";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 export class ModalService<T> {
 
@@ -19,19 +20,18 @@ export class ModalService<T> {
         contentInjector: Injector,
         applicationRef: ApplicationRef,
         document: Document,
-        private errorService: ErrorService) {
+        private errorService: ErrorService,
+        private destroyRef: DestroyRef) {
         this._environmentInjector = environmentInjector;
         this._contentInjector = contentInjector;
         this._applicationRef = applicationRef;
         this._document = document;
-
     }
 
     protected _modalWrapperComponent: ComponentRef<any> = null!;
     private _modalInstance!: any;
     public modalAcepted: Subject<T | null> = new Subject();
     public modalCancelled: Subject<T | null> = new Subject();
-
 
     /**
      * Open modal dialog to promp for user interaction
@@ -50,16 +50,20 @@ export class ModalService<T> {
         );
 
         //subscribe to known child events
-        childComponent.instance.cancelEvent.subscribe(
-            {
-                next: () => this.cancelMe(),
-                error: () => this.errorService.show()
-            });
-        childComponent.instance.acceptEvent.asObservable().subscribe(
-            {
-                next: (data: T) => this.acceptMe(data),
-                error: () => this.errorService.show()
-            });
+        childComponent.instance.cancelEvent
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(
+                {
+                    next: () => this.cancelMe(),
+                    error: (err) => this.errorService.show(err)
+                });
+        childComponent.instance.acceptEvent.asObservable()
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(
+                {
+                    next: (data: T) => this.acceptMe(data),
+                    error: (err) => this.errorService.show(err)
+                });
         //pass data to child
         childComponent.setInput("data", data);
 

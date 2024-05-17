@@ -6,7 +6,7 @@ import { AppComponent } from './app/components/app/app.component';
 import { provideRouter } from '@angular/router';
 import { routes } from './app/services/app.routes';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { ApplicationRef, EnvironmentInjector, Injector, importProvidersFrom } from '@angular/core';
+import { ApplicationRef, DestroyRef, EnvironmentInjector, Injector, importProvidersFrom } from '@angular/core';
 import { RestService } from './app/services/RestService';
 import { environment } from './environments/environment';
 import { AggregateService } from './app/components/aggregate/aggregate-service';
@@ -31,8 +31,9 @@ export function getModalServiceFactory(
   contentInjector: Injector,
   applicationRef: ApplicationRef,
   document: Document,
-  errorService: ErrorService) {
-  return new ModalServiceFactory(environmentInjector, contentInjector, applicationRef, document, errorService);
+  errorService: ErrorService,
+  destroyRef: DestroyRef) {
+  return new ModalServiceFactory(environmentInjector, contentInjector, applicationRef, document, errorService, destroyRef);
 }
 
 //bootstrap this module
@@ -46,7 +47,7 @@ bootstrapApplication(
       { provide: RestService, useFactory: RestServiceFactory, deps: [HttpClient] },
       { provide: ErrorService, useFactory: ErrorServiceFactory },
       { provide: QueryService, useFactory: QueryServiceFactory, deps: [HttpClient] },
-      { provide: ModalServiceFactory, useFactory: getModalServiceFactory, deps: [EnvironmentInjector, Injector, ApplicationRef, DOCUMENT] },
+      { provide: ModalServiceFactory, useFactory: getModalServiceFactory, deps: [EnvironmentInjector, Injector, ApplicationRef, DOCUMENT, ErrorService, DestroyRef] },
       AggregateService,
       AggregateService<Employee>
 

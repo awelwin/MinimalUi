@@ -1,5 +1,5 @@
 import { Employee } from '../../lib/Employee';
-import { Component, Type } from '@angular/core';
+import { Component, DestroyRef, OnDestroy, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableFilter } from '../../pipes/TableFilterPipe';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +14,7 @@ import { EmployeeSearchQueryResult } from './EmployeeSearchQueryResult';
 import { ModalService } from '../modal/ModalService';
 import { YesNoActionComponent } from '../modal/yes-no-action/yes-no-action.component';
 import { ModalServiceFactory } from '../modal/ModalServiceFactory';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'aggregate',
@@ -34,8 +35,10 @@ export class AggregateComponent {
     private aggregateService: AggregateService<Employee>,
     private errorService: ErrorService,
     private queryService: QueryService,
-    private modalServiceFactory: ModalServiceFactory) {
+    private modalServiceFactory: ModalServiceFactory,
+    private destroyRef: DestroyRef) {
     this.aggregateService.initialize("Employee");
+
   }
 
   /**
@@ -46,6 +49,7 @@ export class AggregateComponent {
     //React to search input keystrokes
     this.searchSubject
       .pipe(debounceTime(700))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
           if (this._search == "") {
@@ -54,16 +58,17 @@ export class AggregateComponent {
           }
           else {
             this.queryService.searchEmployee(this._search)
+              .pipe(takeUntilDestroyed(this.destroyRef))
               .subscribe({
                 next: (result) => {
                   this._searchResults = result; //save results                 
                   this._searchNoResult = this._searchResults.length < 1;
                 },
-                error: () => this.errorService.show()
+                error: (err) => this.errorService.show(err)
               });
           }
         },
-        error: () => this.errorService.show()
+        error: (err) => this.errorService.show(err)
       });
 
   }
@@ -76,6 +81,7 @@ export class AggregateComponent {
    */
   searchResultChosen(id: number) {
     this.aggregateService.getWithId<Employee>(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (result) => {
           this._currentEntity = result;
@@ -83,7 +89,7 @@ export class AggregateComponent {
           this._search = "";
           this._searchNoResult = false;
         },
-        error: () => this.errorService.show()
+        error: (err) => this.errorService.show(err)
       });
   }
 
@@ -102,11 +108,13 @@ export class AggregateComponent {
     );
 
     //Modal
-    let modalInstance: ModalService<YesNoModalAction> = this.modalServiceFactory.create<YesNoModalAction>();
-    modalInstance.modalAcepted.subscribe({
-      next: (data) => this.delete(data!.payload),
-      error: () => this.errorService.show()
-    });
+    let modalInstance: ModalService<YesNoModalAction> = this.modalServiceFactory.getInstance<YesNoModalAction>();
+    modalInstance.modalAcepted
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (data) => this.delete(data!.payload),
+        error: (err) => this.errorService.show(err)
+      });
     modalInstance.open(<any>YesNoActionComponent, content);
 
   }
@@ -115,9 +123,10 @@ export class AggregateComponent {
    */
   delete(id: number) {
     this.aggregateService.delete(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => this._currentEntity = null!,
-        error: (err) => this.errorService.show()
+        error: (err) => this.errorService.show(err)
       }
       );
   }

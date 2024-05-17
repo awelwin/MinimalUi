@@ -9,13 +9,17 @@ export class ErrorService {
      * @param elementId html dom element id that hosts global error message rendering to user
      */
 
-    constructor(private elementId: string) { console.log(elementId) }
+    constructor(private elementId: string) { }
 
     /* trigger bootstrap toast indicating error using predefined html element containing the toast */
-    public show() {
+    public show(err: any | null) {
+
+        if (err != null)
+            console.log(err);
 
         const errClient = document.getElementById(this.elementId);
         const toastBootstrap = bootstrap.Toast.getOrCreateInstance(errClient!);
         toastBootstrap.show();
+
     }
 }
