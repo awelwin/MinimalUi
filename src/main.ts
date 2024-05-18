@@ -12,7 +12,7 @@ import { environment } from './environments/environment';
 import { AggregateService } from './app/components/aggregate/aggregate-service';
 import { Employee } from './app/lib/Employee';
 import { ErrorService } from './app/services/ErrorService';
-import { QueryService } from './app/components/aggregate/QueryService';
+import { QueryService } from './app/services/QueryService';
 import { DOCUMENT } from '@angular/common';
 import { ModalServiceFactory } from './app/components/modal/ModalServiceFactory';
 

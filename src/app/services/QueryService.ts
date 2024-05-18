@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
-import { RestService } from "../../services/RestService";
-import { EmployeeSearchQueryResult } from "./EmployeeSearchQueryResult";
+import { RestService } from "./RestService";
+import { EmployeeSearchQueryResult } from "../lib/EmployeeSearchQueryResult";
 import { HttpClient } from "@angular/common/http";
 
 export class QueryService extends RestService {

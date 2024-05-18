@@ -1,0 +1,67 @@
+@import "../../../../node_modules/bootstrap/scss/mixins/breakpoints";
+@import "../../../../node_modules/bootstrap/scss/functions";
+@import "../../../../node_modules/bootstrap/scss/variables";
+
+.dashboard-container {
+    margin: 0px;
+    padding: 0px
+}
+
+.entity {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    text-overflow: ellipsis;
+    text-wrap: none;
+    margin: 25px;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 8px 8px rgb(226, 226, 226)
+}
+
+.entity-header {
+    background: black;
+    color: rgb(210, 210, 210);
+    padding: 10px;
+    text-overflow: ellipsis;
+    text-wrap: none;
+    overflow: hidden;
+    width: 100%;
+}
+
+.entity-body {
+    padding: 10px;
+    text-align: left;
+}
+
+.filter-text {
+    color: rgba(128, 128, 128, 0.678);
+    border: none;
+    padding-left: 10px;
+
+}
+
+.filter {
+    display: inline-block;
+    width: 100%;
+}
+
+
+.filter-icon {
+    font-size: xx-large;
+}
+
+input:focus {
+    outline: none;
+}
+
+//SMALL SCREENS ONLY
+@include media-breakpoint-down(md) {
+    .entity {
+        width: 80%;
+    }
+
+    .filter {
+        margin-left: 30px;
+    }
+}

@@ -70,7 +70,7 @@
 
                 <!--Entity Details-->
                 <div *ngIf="this._currentEntity !=null">
-                    <div class="row entity-header ">
+                    <div class="row entity-header">
                         <div class="col-10">
                             <h4 class="text-start">{{_currentEntity.id}} {{_currentEntity.firstname}}
                                 {{_currentEntity.lastname}}</h4>
@@ -78,12 +78,12 @@
                         <div class="col text-end">
 
                             <!--Entity Menu-->
-                            <div class="overflow-hidden entity-menu dropleft">
-                                <div id="dropdown">
+                            <div class="overflow-hidden entity-menu">
+                                <div id="dropdleft" class="">
                                     <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="bi bi-three-dots-vertical"></i>
                                     </div>
-                                    <ul class="dropdown-menu">
+                                    <ul class="dropdown-menu dropdown-menu-end">
 
                                         <li class="entity-item-action entity-item-action-delete"
                                             (click)=deleteConfirm(_currentEntity.id)>

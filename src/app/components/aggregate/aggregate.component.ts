@@ -1,7 +1,6 @@
 import { Employee } from '../../lib/Employee';
 import { Component, DestroyRef, OnDestroy, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TableFilter } from '../../pipes/TableFilterPipe';
 import { FormsModule } from '@angular/forms';
 import { AggregateService } from './aggregate-service';
 import { ErrorService } from '../../services/ErrorService';
@@ -9,8 +8,8 @@ import { EntityComponent } from '../entity/entity.component';
 import { ModalActionType } from '../modal/ModalActionType';
 import { YesNoModalAction } from '../modal/ModalAction';
 import { Subject, debounceTime } from 'rxjs';
-import { QueryService } from './QueryService';
-import { EmployeeSearchQueryResult } from './EmployeeSearchQueryResult';
+import { QueryService } from '../../services/QueryService';
+import { EmployeeSearchQueryResult } from '../../lib/EmployeeSearchQueryResult';
 import { ModalService } from '../modal/ModalService';
 import { YesNoActionComponent } from '../modal/yes-no-action/yes-no-action.component';
 import { ModalServiceFactory } from '../modal/ModalServiceFactory';
@@ -19,7 +18,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'aggregate',
   standalone: true,
-  imports: [CommonModule, TableFilter, FormsModule, EntityComponent],
+  imports: [CommonModule, FormsModule, EntityComponent],
   templateUrl: './aggregate.component.html',
   styleUrl: './aggregate.component.scss'
 })
