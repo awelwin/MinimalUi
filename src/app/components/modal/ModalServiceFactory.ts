@@ -1,6 +1,7 @@
 import { ApplicationRef, DestroyRef, EnvironmentInjector, Injector } from "@angular/core";
 import { ErrorService } from "../../services/ErrorService";
 import { ModalService } from "./ModalService";
+import { IEntity } from "../../lib/IEntity";
 
 export class ModalServiceFactory {
 
@@ -20,9 +21,9 @@ export class ModalServiceFactory {
      * Typescript does not allow generic type comparrison i.e.
      * we cannot hold a singleton for each variation of T
     */
-    public getInstance<T>(): ModalService<T> {
+    public getInstance<T extends IEntity>(): ModalService<T> {
 
-        let service: ModalService<T> = new ModalService<T>(
+        let service = new ModalService<T>(
             this.environmentInjector,
             this.contentInjector,
             this.applicationRef,

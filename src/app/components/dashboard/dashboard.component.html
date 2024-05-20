@@ -16,18 +16,22 @@
     <div class="row">
         <div class="col text-center p-0 m-0">
 
-            <div *ngFor="let emp of employees$ | async | filterEmployeeCollection:_filter; index as i" class="entity">
-                <div class="entity-header">
-                    {{emp.firstname}} {{emp.lastname}}
-                </div>
-                <div class="entity-body">
-                    <div>{{emp.id}}</div>
-                    <div *ngIf="emp.taxFile!= null">
-                        <i class="bi bi-file-earmark-text"></i> {{emp.taxFile.taxFileRecords.length}} records
-                    </div>
-                </div>
+            <ng-container *ngFor="let emp of employees | filterEmployeeCollection:_filter; index as i" class="entity">
 
-            </div>
+                <aggregate-wrapper [entity]=emp title="{{emp | employeeFullname}}" (actionTaken)=actionTaken($event)>
+                    <div class="entity-body">
+                        <div>{{emp.id}}</div>
+                        <div *ngIf="emp.taxFile!= null">
+                            <i class="bi bi-file-earmark-text"></i> {{emp.taxFile.taxFileRecords.length}} records
+                        </div>
+                    </div>
+                </aggregate-wrapper>
+
+
+                <!--
+                
+            -->
+            </ng-container>
         </div>
     </div>
 </div>

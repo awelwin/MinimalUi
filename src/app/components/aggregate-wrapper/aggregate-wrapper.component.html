@@ -1,0 +1,30 @@
+<div class="wrapper">
+
+    <!--header-->
+    <div class="header">
+
+        <!--title-->
+        <div class="title">{{title}}ssdfsd f</div>
+        <div class="flex-fill"></div>
+
+        <!--menu-->
+        <div class="menu">
+            <div id=" dropdleft">
+                <div class="dropdown-toggle " data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-three-dots-vertical  text-end"></i>
+                </div>
+                <ul class="dropdown-menu dropdown-menu-end">
+
+                    <li class="item-action item-action-delete" (click)=requestDelete()>
+                        delete</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="body">
+        <ng-content>
+            <!--CONTENT GOES HERE-->
+        </ng-content>
+    </div>
+</div>

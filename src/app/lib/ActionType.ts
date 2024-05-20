@@ -1,4 +1,4 @@
-export enum ModalActionType {
+export const enum ActionType {
 
     Create = 1,
     Read = 2,

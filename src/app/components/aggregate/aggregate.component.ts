@@ -2,18 +2,17 @@ import { Employee } from '../../lib/Employee';
 import { Component, DestroyRef, OnDestroy, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AggregateService } from './aggregate-service';
+import { EmployeeService } from './employee-service';
 import { ErrorService } from '../../services/ErrorService';
 import { EntityComponent } from '../entity/entity.component';
-import { ModalActionType } from '../modal/ModalActionType';
-import { YesNoModalAction } from '../modal/ModalAction';
 import { Subject, debounceTime } from 'rxjs';
 import { QueryService } from '../../services/QueryService';
 import { EmployeeSearchQueryResult } from '../../lib/EmployeeSearchQueryResult';
-import { ModalService } from '../modal/ModalService';
 import { YesNoActionComponent } from '../modal/yes-no-action/yes-no-action.component';
 import { ModalServiceFactory } from '../modal/ModalServiceFactory';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ModalAction } from '../modal/ModalAction';
+import { ActionType } from '../../lib/ActionType';
 
 @Component({
   selector: 'aggregate',
@@ -31,12 +30,11 @@ export class AggregateComponent {
   _currentEntity!: Employee;
 
   constructor(
-    private aggregateService: AggregateService<Employee>,
+    private employeeService: EmployeeService,
     private errorService: ErrorService,
     private queryService: QueryService,
     private modalServiceFactory: ModalServiceFactory,
     private destroyRef: DestroyRef) {
-    this.aggregateService.initialize("Employee");
 
   }
 
@@ -79,7 +77,7 @@ export class AggregateComponent {
    * sets current entity based on search results clicked
    */
   searchResultChosen(id: number) {
-    this.aggregateService.getWithId<Employee>(id)
+    this.employeeService.getWithId(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (result) => {
@@ -96,32 +94,32 @@ export class AggregateComponent {
   /* confirm delete
   * @param id entity id
   */
-  deleteConfirm(id: number) {
+  deleteConfirm(emp: Employee) {
 
     //Modal Content
-    let content: YesNoModalAction = new YesNoModalAction(
-      "Note: This action may not be reversablex",
-      "Confirm Delete",
-      ModalActionType.Delete,
-      id
-    );
+    let action = <ModalAction<Employee>>({
+      title: "Confirm Delete",
+      message: "Note: This action may not be reversablex",
+      actionType: ActionType.Delete,
+      payload: emp
+    });
 
     //Modal
-    let modalInstance: ModalService<YesNoModalAction> = this.modalServiceFactory.getInstance<YesNoModalAction>();
+    let modalInstance = this.modalServiceFactory.getInstance<Employee>();
     modalInstance.modalAcepted
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (data) => this.delete(data!.payload),
+        next: (modalAction) => this.delete(modalAction?.payload!),
         error: (err) => this.errorService.show(err)
       });
-    modalInstance.open(<any>YesNoActionComponent, content);
+    modalInstance.open(<any>YesNoActionComponent, action);
 
   }
   /**
    * delete row
    */
-  delete(id: number) {
-    this.aggregateService.delete(id)
+  delete(emp: Employee) {
+    this.employeeService.delete(emp.id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => this._currentEntity = null!,

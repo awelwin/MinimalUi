@@ -5,8 +5,9 @@ import { ModalChildComponent } from "./modal-child.component";
 import { ErrorService } from "../../services/ErrorService";
 import { Subject } from "rxjs";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-
-export class ModalService<T> {
+import { ModalAction } from "./ModalAction";
+import { IEntity } from "../../lib/IEntity";
+export class ModalService<T extends IEntity> {
 
     protected readonly GLOBAL_MODAL_ELEMENT_ID: string = "GLOBAL_MODAL_ELEMENT_ID";
     protected readonly GLOBAL_MODAL_BODY_ELEMENT_ID = "GLOBAL_MODAL_BODY_ELEMENT_ID";
@@ -30,15 +31,15 @@ export class ModalService<T> {
 
     protected _modalWrapperComponent: ComponentRef<any> = null!;
     private _modalInstance!: any;
-    public modalAcepted: Subject<T | null> = new Subject();
+    public modalAcepted: Subject<ModalAction<T> | null> = new Subject();
     public modalCancelled: Subject<T | null> = new Subject();
 
     /**
      * Open modal dialog to promp for user interaction
-     * - where T is 'any' and specifies return payload type
-     * - where component must extend ModalChildComponent  
+     * - where T specifies return payload type
+     * - where component is a ModalChildComponent  
     */
-    open(comp: ModalChildComponent<T>, data: T) {
+    open(comp: ModalChildComponent<T>, action: ModalAction<T>) {
 
         //create content
         const childComponent = createComponent<ModalChildComponent<T>>(
@@ -61,11 +62,11 @@ export class ModalService<T> {
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(
                 {
-                    next: (data: T) => this.acceptMe(data),
+                    next: (modalAction: ModalAction<T>) => this.acceptMe(modalAction),
                     error: (err) => this.errorService.show(err)
                 });
         //pass data to child
-        childComponent.setInput("data", data);
+        childComponent.setInput("action", action);
 
         //create modal
         this._modalWrapperComponent = createComponent(
@@ -99,9 +100,9 @@ export class ModalService<T> {
         this.modalCancelled.next(null!);
 
     }
-    protected acceptMe(data: T) {
+    protected acceptMe(modalAction: ModalAction<T>) {
         this._modalInstance.dispose();
         this._modalWrapperComponent.destroy();
-        this.modalAcepted.next(data);
+        this.modalAcepted.next(modalAction);
     }
 }

@@ -1,26 +1,13 @@
-import { ModalActionType } from "./ModalActionType";
-
+import { ActionType as ActionType } from "../../lib/ActionType";
+import { Action } from "../../lib/Action";
+import { IEntity } from "../../lib/IEntity";
 /**
- * Encapsulate modal interaction for form based user input
+ * Encapsulate a generic modal action. i.e. create and entity or simply confirm yes/no
  */
-export class ModalAction<T> {
+export class ModalAction<T extends IEntity> extends Action<T> {
 
-    constructor(
-        public payload: T,
-        public type: ModalActionType) { }
+    public title: string = "";
+    public message: string = "";
+}
 
-}
-/*
-Encapsulate Modal interaction for yes/no confirmation type
- */
-export class YesNoModalAction extends ModalAction<number> {
-    constructor(
-        public message: string = "",
-        public title: string = "",
-        type: ModalActionType,
-        payload: number
-    ) {
-        super(payload, type);
-    }
-}
 

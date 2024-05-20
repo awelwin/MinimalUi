@@ -1,4 +1,7 @@
 import { Component, Directive, EventEmitter, Input, Output } from "@angular/core";
+import { ModalAction } from "./ModalAction";
+import { identity } from "rxjs";
+import { IEntity } from "../../lib/IEntity";
 
 /**
  *  components placed inside a moda */
@@ -7,22 +10,22 @@ import { Component, Directive, EventEmitter, Input, Output } from "@angular/core
     standalone: true,
     template: ""
 })
-export abstract class ModalChildComponent<T> {
+export abstract class ModalChildComponent<T extends IEntity> {
 
     constructor() { }
 
     @Input()
-    data: T | null = null;
+    action: ModalAction<T> | null = null;
 
     @Output()
     cancelEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     @Output()
-    acceptEvent: EventEmitter<T> = new EventEmitter<T>();
+    acceptEvent = new EventEmitter<ModalAction<T>>;
 
-    ngOnInit() {
-    }
+    ngOnInit() { }
 
     abstract accept(): void;
     abstract cancel(): void;
+
 }

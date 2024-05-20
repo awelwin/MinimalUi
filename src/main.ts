@@ -9,7 +9,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { ApplicationRef, DestroyRef, EnvironmentInjector, Injector, importProvidersFrom } from '@angular/core';
 import { RestService } from './app/services/RestService';
 import { environment } from './environments/environment';
-import { AggregateService } from './app/components/aggregate/aggregate-service';
+import { EmployeeService } from './app/components/aggregate/employee-service';
 import { Employee } from './app/lib/Employee';
 import { ErrorService } from './app/services/ErrorService';
 import { QueryService } from './app/services/QueryService';
@@ -48,9 +48,7 @@ bootstrapApplication(
       { provide: ErrorService, useFactory: ErrorServiceFactory },
       { provide: QueryService, useFactory: QueryServiceFactory, deps: [HttpClient] },
       { provide: ModalServiceFactory, useFactory: getModalServiceFactory, deps: [EnvironmentInjector, Injector, ApplicationRef, DOCUMENT, ErrorService, DestroyRef] },
-      AggregateService,
-      AggregateService<Employee>
-
+      EmployeeService,
     ]
   },
 

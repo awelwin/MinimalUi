@@ -1,0 +1,48 @@
+.wrapper {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    text-overflow: ellipsis;
+    text-wrap: none;
+    margin: 25px;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 8px 8px rgb(226, 226, 226)
+}
+
+.menu {
+    cursor: pointer;
+    text-align: right;
+    min-width: 0;
+}
+
+.body {
+    padding: 10px;
+    text-align: left;
+}
+
+.header {
+    background: black;
+    color: rgb(210, 210, 210);
+    padding: 10px;
+    width: 100%;
+    display: flex;
+}
+
+.title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-wrap: nowrap;
+}
+
+.item-action {
+    padding-right: 10px;
+    cursor: pointer;
+    color: black;
+    font-style: normal;
+    text-align: center;
+}
+
+.item-action-delete {
+    color: red;
+}
