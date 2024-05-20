@@ -4,7 +4,6 @@ import { Employee } from '../../lib/Employee';
 import { CommonModule, DatePipe } from '@angular/common';
 
 import { ErrorService } from '../../services/ErrorService';
-import { EmployeeService } from '../aggregate/employee-service';
 
 @Component({
   selector: 'entity',
@@ -18,6 +17,5 @@ export class EntityComponent {
   data!: Employee;
 
   constructor(
-    private employeeService: EmployeeService,
     private errorService: ErrorService) { }
 }

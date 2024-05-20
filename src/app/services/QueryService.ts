@@ -1,20 +1,17 @@
 import { Observable } from "rxjs";
-import { RestService } from "./RestService";
 import { EmployeeSearchQueryResult } from "../lib/EmployeeSearchQueryResult";
 import { HttpClient } from "@angular/common/http";
 
-export class QueryService extends RestService {
+export class QueryService {
 
-    constructor(http: HttpClient, serviceUri: string) {
-        super(http, serviceUri);
-    }
+    constructor(private http: HttpClient, private serviceUri: string) { }
 
     /**
      * @param input search string 
      * @returns Employee search results or empty array []
      */
     public searchEmployee(input: string): Observable<EmployeeSearchQueryResult[]> {
-        return this.get<EmployeeSearchQueryResult>('query/employee-search?input=' + input);
+        return this.http.get<EmployeeSearchQueryResult[]>(this.serviceUri + 'query/employee-search?input=' + input);
     }
 
 }

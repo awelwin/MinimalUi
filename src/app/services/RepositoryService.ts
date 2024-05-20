@@ -1,21 +1,25 @@
 
 import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { IEntity } from '../lib/IEntity';
 
 /**Provide global configuration settings for http operations
  */
 
-export class RestService {
+export class RepositoryService<T extends IEntity> {
 
+    public instanceId: string = Math.random().toString()
     _serviceUri: string = "";
     requestOptions: Object = { withCredentials: false, responseType: 'json' };
     _http!: HttpClient;
+    _resource: string = "";
 
     /** constructor */
-    constructor(http: HttpClient, serviceUri: string) {
+    constructor(http: HttpClient, serviceUri: string, resource: string) {
 
         this._http = http;
         this._serviceUri = serviceUri;
+        this._resource = resource;
     }
 
 
@@ -25,9 +29,9 @@ export class RestService {
      * @param id resource unique id
      * @param resource Rest resource name
      */
-    public getWithId<T>(id: number, resourceName: string): Observable<T> {
+    public getWithId(id: number): Observable<T> {
 
-        var url = this._serviceUri + resourceName + "/" + id;
+        var url = this._serviceUri + this._resource + "/" + id;
         return this._http.get<T>(url, this.requestOptions)
 
     }
@@ -35,7 +39,7 @@ export class RestService {
     /**
      * Post resource
      */
-    public post<T>(resource: T, resourceName: string): Observable<T> {
+    public post(resource: T, resourceName: string): Observable<T> {
 
         //resource identifier
         var url = this._serviceUri + resourceName
@@ -46,9 +50,9 @@ export class RestService {
     /**
      * List resource
      */
-    public get<T>(resourceName: string): Observable<T[]> {
+    public get(): Observable<T[]> {
         //resource identifier
-        var url = this._serviceUri + resourceName;
+        var url = this._serviceUri + this._resource;
 
         return this._http.get<T[]>(url, this.requestOptions)
     }
@@ -57,9 +61,9 @@ export class RestService {
      * Find entities matching query string
      * @param queryString http queryString. Must exclude '?' prefix character. 
      */
-    public getWithQuery<T>(resourceName: string, queryString: string): Observable<Array<T>> {
+    public getWithQuery(queryString: string): Observable<Array<T>> {
 
-        var url = this._serviceUri + resourceName + "?" + queryString;
+        var url = this._serviceUri + this._resource + "?" + queryString;
         return this._http.get<Array<T>>(url, this.requestOptions)
 
     }
@@ -68,8 +72,8 @@ export class RestService {
      * Update resource
      * @param resource resource instance to persist
      */
-    public put<T>(resourceName: string, id: number, resource: T): Observable<HttpEvent<any>> {
-        let url = this._serviceUri + resourceName + "/" + id;
+    public put(id: number, resource: T): Observable<HttpEvent<any>> {
+        let url = this._serviceUri + this._resource + "/" + id;
         return this._http.put<HttpEvent<any>>(url, resource, this.requestOptions);
     }
 
@@ -77,8 +81,8 @@ export class RestService {
      * Delete entity
      * @param id id of resource to delete
      */
-    public delete(resourceName: string, id: number): Observable<HttpEvent<any>> {
-        let url = this._serviceUri + resourceName + "/" + id;
+    public delete(id: number): Observable<HttpEvent<any>> {
+        let url = this._serviceUri + this._resource + "/" + id;
         return this._http.delete<HttpEvent<any>>(url, this.requestOptions);
     }
 }

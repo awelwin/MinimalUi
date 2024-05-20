@@ -7,18 +7,16 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app/services/app.routes';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { ApplicationRef, DestroyRef, EnvironmentInjector, Injector, importProvidersFrom } from '@angular/core';
-import { RestService } from './app/services/RestService';
 import { environment } from './environments/environment';
-import { EmployeeService } from './app/components/aggregate/employee-service';
-import { Employee } from './app/lib/Employee';
 import { ErrorService } from './app/services/ErrorService';
 import { QueryService } from './app/services/QueryService';
 import { DOCUMENT } from '@angular/common';
 import { ModalServiceFactory } from './app/components/modal/ModalServiceFactory';
+import { RepositoryServiceFactory } from './app/services/RepositoryServiceFactory';
 
 //Factory methods
-export function RestServiceFactory(http: HttpClient, restService: RestService) {
-  return new RestService(http, environment.serviceUri);
+export function getRepositoryServiceFactory(http: HttpClient) {
+  return new RepositoryServiceFactory(http, environment.serviceUri);
 }
 export function QueryServiceFactory(http: HttpClient, restService: QueryService) {
   return new QueryService(http, environment.serviceUri);
@@ -44,11 +42,10 @@ bootstrapApplication(
 
       importProvidersFrom(HttpClientModule),
       provideRouter(routes),
-      { provide: RestService, useFactory: RestServiceFactory, deps: [HttpClient] },
+      { provide: RepositoryServiceFactory, useFactory: getRepositoryServiceFactory, deps: [HttpClient] },
       { provide: ErrorService, useFactory: ErrorServiceFactory },
       { provide: QueryService, useFactory: QueryServiceFactory, deps: [HttpClient] },
       { provide: ModalServiceFactory, useFactory: getModalServiceFactory, deps: [EnvironmentInjector, Injector, ApplicationRef, DOCUMENT, ErrorService, DestroyRef] },
-      EmployeeService,
     ]
   },
 

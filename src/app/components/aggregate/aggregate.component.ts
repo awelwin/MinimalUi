@@ -2,7 +2,6 @@ import { Employee } from '../../lib/Employee';
 import { Component, DestroyRef, OnDestroy, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { EmployeeService } from './employee-service';
 import { ErrorService } from '../../services/ErrorService';
 import { EntityComponent } from '../entity/entity.component';
 import { Subject, debounceTime } from 'rxjs';
@@ -13,6 +12,8 @@ import { ModalServiceFactory } from '../modal/ModalServiceFactory';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ModalAction } from '../modal/ModalAction';
 import { ActionType } from '../../lib/ActionType';
+import { RepositoryServiceFactory } from '../../services/RepositoryServiceFactory';
+import { RepositoryService } from '../../services/RepositoryService';
 
 @Component({
   selector: 'aggregate',
@@ -23,6 +24,7 @@ import { ActionType } from '../../lib/ActionType';
 })
 export class AggregateComponent {
 
+  private _repoService!: RepositoryService<Employee>;
   public _search: string = "";
   public _searchResults: EmployeeSearchQueryResult[] = [];
   public searchSubject: Subject<any> = new Subject();
@@ -30,12 +32,12 @@ export class AggregateComponent {
   _currentEntity!: Employee;
 
   constructor(
-    private employeeService: EmployeeService,
+    private repoServiceFactory: RepositoryServiceFactory,
     private errorService: ErrorService,
     private queryService: QueryService,
     private modalServiceFactory: ModalServiceFactory,
     private destroyRef: DestroyRef) {
-
+    this._repoService = repoServiceFactory.getInstance<Employee>(Employee);
   }
 
   /**
@@ -77,7 +79,7 @@ export class AggregateComponent {
    * sets current entity based on search results clicked
    */
   searchResultChosen(id: number) {
-    this.employeeService.getWithId(id)
+    this._repoService.getWithId(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (result) => {
@@ -119,7 +121,7 @@ export class AggregateComponent {
    * delete row
    */
   delete(emp: Employee) {
-    this.employeeService.delete(emp.id)
+    this._repoService.delete(emp.id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => this._currentEntity = null!,

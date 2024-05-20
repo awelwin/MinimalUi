@@ -2,8 +2,10 @@ import { TaxFile } from "./TaxFile";
 import {
     IEntity
 } from "./IEntity";
+
 export class Employee implements IEntity {
 
+    resourceName: string = "employee";
     id: number = 0;
     firstname: string = '';
     lastname: string = ''

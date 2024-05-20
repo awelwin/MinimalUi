@@ -7,11 +7,11 @@ import { FormsModule } from '@angular/forms';
 import { FilterEmployeeCollectionPipe } from '../../pipes/FilterEmployeeCollectionPipe';
 import { AggregateWrapperComponent } from '../aggregate-wrapper/aggregate-wrapper.component';
 import { EmployeeFullnlamePipe } from '../../pipes/EmployeeFullnamePipe';
-import { EmployeeService } from '../aggregate/employee-service';
 import { Subject, debounceTime } from 'rxjs';
 import { Action } from '../../lib/Action';
 import { ActionType } from '../../lib/ActionType';
-
+import { RepositoryServiceFactory } from '../../services/RepositoryServiceFactory';
+import { RepositoryService } from '../../services/RepositoryService';
 
 @Component({
   selector: 'dashboard',
@@ -22,21 +22,26 @@ import { ActionType } from '../../lib/ActionType';
 })
 export class DashboardComponent implements OnInit {
 
+  _repoService!: RepositoryService<Employee>;
   employees: Employee[] = [];
   _filterSubject: Subject<string> | null = null;
   _filter: string = "";
 
 
   constructor(
-    private employeeService: EmployeeService,
     private destroyRef: DestroyRef,
-    private errorService: ErrorService
-  ) { }
+    private errorService: ErrorService,
+    private repoServiceFactory: RepositoryServiceFactory
+  ) {
+    console.log('first call ----');
+    this._repoService = repoServiceFactory.getInstance<Employee>(Employee)
+    console.log(this._repoService.instanceId);
+  }
 
   ngOnInit() {
 
     //call api
-    this.employeeService.list()
+    this._repoService.get()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (data) => this.employees = data,
