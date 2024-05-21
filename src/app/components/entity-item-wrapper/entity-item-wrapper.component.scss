@@ -1,0 +1,21 @@
+div:hover {
+    cursor: pointer;
+}
+
+.action-menu {
+    min-height: 25px;
+    color: rgb(196, 111, 0);
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.action-item {
+    padding-right: 25px;
+    text-shadow: 4px 2px 4px #00000045;
+}
+
+.wrapper {
+    display: inline-flex;
+
+
+}

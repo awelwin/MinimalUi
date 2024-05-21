@@ -1,6 +1,10 @@
+import { identifierName } from '@angular/compiler';
 import { TaxFileRecord } from './TaxFileRecord';
+import { IEntity } from './IEntity';
 
-export class TaxFile {
+export class TaxFile implements IEntity {
+
+    readonly resourceName: string = "";
     id: number = 0
     alias: string = '';
     employeeId: number = 0;

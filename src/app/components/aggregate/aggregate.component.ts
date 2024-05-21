@@ -30,7 +30,7 @@ export class AggregateComponent {
   public searchSubject: Subject<any> = new Subject();
   public _searchNoResult: boolean = false;
   _currentEntity!: Employee;
-
+  _DEVONLYEMPLOYEE: Employee = <Employee>({ firstname: "Johnny", lastname: "TurnCoat", age: 45, taxFile: { alias: "December Taxfile", employeeId: 2, taxFileRecords: [{ financialYear: 2001, amountPaid: 300, amountClaimed: 289, taxFileId: 2, id: 4, created: new Date(), updated: new Date() }, { financialYear: 2002, amountPaid: 365, amountClaimed: 444, taxFileId: 2, id: 5, created: new Date(), updated: new Date() }, { financialYear: 2003, amountPaid: 4655, amountClaimed: 34, taxFileId: 2, id: 6, created: new Date(), updated: new Date() }], id: 2, created: new Date(), updated: new Date() }, id: 2, updated: new Date() })
   constructor(
     private repoServiceFactory: RepositoryServiceFactory,
     private errorService: ErrorService,

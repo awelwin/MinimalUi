@@ -1,7 +1,9 @@
+import { IEntity } from "./IEntity";
 
 
-export class TaxFileRecord {
+export class TaxFileRecord implements IEntity {
 
+    readonly resourceName: string = "";
     id: number = 0;
     financialYear: number = 0;
     amountPaid: number = 0;

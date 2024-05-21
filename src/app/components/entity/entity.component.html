@@ -10,13 +10,17 @@
         {{data.taxFile.alias}}
         [{{data.taxFile.taxFileRecords.length}} records]</p>
 </div>
-<div *ngFor="let tfr of data.taxFile.taxFileRecords" class="p-1 indent text-wrap">
-    <i class="bi bi-file-text"></i>
-    Financial year <span class="entity-item">{{tfr.financialYear}}</span>
-    Paid <span class="entity-item">${{tfr.amountPaid}}</span>
-    Claimed <span class="entity-item">${{tfr.amountClaimed}}</span>
-    <div class="entity-item-metadata">{{tfr.id}} - {{tfr.created | date: "MMM d, y"}}
-    </div>
+<div *ngFor="let tfr of data.taxFile.taxFileRecords" class="p-1 indent text-wrap ">
+
+    <entity-item-wrapper [menuOpened]=_menuOpened [entity]=tfr>
+        <i class="bi bi-file-text"></i>
+        Financial year <span class="entity-item">{{tfr.financialYear}}</span>
+        Paid <span class="entity-item">${{tfr.amountPaid}}</span>
+        Claimed <span class="entity-item">${{tfr.amountClaimed}}</span>
+        <div class="entity-item-metadata">{{tfr.id}} - {{tfr.created | date: "MMM d, y"}}
+        </div>
+
+    </entity-item-wrapper>
 </div><!--taxfile-->
 
 <!--metadata-->

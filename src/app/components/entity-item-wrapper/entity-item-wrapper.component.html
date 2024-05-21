@@ -1,0 +1,14 @@
+<div class="wrapper">
+    <span (click)=click()>
+
+        <!-- ENTITY ITEM DISPLAYED HERE -->
+        <ng-content></ng-content>
+        <!-- END DYNAMIC CONTENT-->
+    </span>
+
+    <span class="action-menu" [hidden]="!_menuIsOpen">
+        <i class="bi bi-pencil action-item" (click)=edit()></i>
+        <i class="bi bi-trash3 action-item" (click)=delete()></i>
+    </span>
+    <span></span>
+</div>

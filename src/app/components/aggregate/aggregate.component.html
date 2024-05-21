@@ -98,6 +98,40 @@
                         <entity [data]=this._currentEntity></entity>
                     </div>
                 </div>
+
+                <!----DEVELOPMENT ONLY --------------------------------------->
+                <!--Entity Details-->
+
+                <div class="row entity-header">
+                    <div class="col-10">
+                        <h4 class="text-start">1012 alexander Elwin</h4>
+                    </div>
+                    <div class="col text-end">
+
+                        <!--Entity Menu-->
+                        <div class="overflow-hidden entity-menu">
+                            <div id="dropdleft" class="">
+                                <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </div>
+                                <ul class="dropdown-menu dropdown-menu-end">
+
+                                    <li class="entity-item-action entity-item-action-delete"
+                                        (click)=deleteConfirm(_currentEntity)>
+                                        delete</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row entity-body p-2">
+                    <entity [data]=_DEVONLYEMPLOYEE></entity>
+                </div>
+
+                <!---DEVELOPMENT ONLY----------------------------------------->
+
+
             </div><!--container-->
 
         </div><!--Aggregate Body-->
