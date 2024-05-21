@@ -7,6 +7,24 @@ div:hover {
     color: rgb(196, 111, 0);
     cursor: pointer;
     margin-left: 20px;
+    text-wrap: nowrap;
+
+}
+
+.action-menu-toggle {
+    color: grey;
+    opacity: 0.5;
+    border: none;
+
+}
+
+button.action-menu-toggle {
+    background-color: black;
+    border: none;
+    //border: 1px solid black;
+    background: white;
+    padding: 0px;
+    margin: 0px;
 }
 
 .action-item {
@@ -14,8 +32,11 @@ div:hover {
     text-shadow: 4px 2px 4px #00000045;
 }
 
+.info-item {
+    color: grey;
+    opacity: 0.5;
+}
+
 .wrapper {
     display: inline-flex;
-
-
 }

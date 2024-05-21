@@ -1,13 +1,12 @@
 import { Component, DestroyRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Action } from '../../lib/Action';
 import { IEntity } from '../../lib/IEntity';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NgClass } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 
 @Component({
   selector: 'entity-item-wrapper',
   standalone: true,
-  imports: [NgClass],
+  imports: [NgClass, DatePipe],
   templateUrl: './entity-item-wrapper.component.html',
   styleUrl: './entity-item-wrapper.component.scss'
 })
@@ -26,6 +25,7 @@ export class EntityItemWrapperComponent implements OnInit {
   deleteClick = new EventEmitter<IEntity>()
 
   _menuIsOpen: boolean = false;
+  _tooltip: string = "";
 
   constructor(private destroyRef: DestroyRef) { }
 
@@ -37,7 +37,7 @@ export class EntityItemWrapperComponent implements OnInit {
       .subscribe({ next: (id) => { if (id != this.entity.id) this._menuIsOpen = false; } });
   }
 
-  click() {
+  toggleMenu() {
     //toggle and broadcast to parent
     if (this._menuIsOpen) { this._menuIsOpen = false; }
     else {

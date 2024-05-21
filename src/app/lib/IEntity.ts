@@ -3,4 +3,6 @@ export interface IEntity {
     resourceName: string;
     //unique system id
     id: number;
+    created?: Date;
+    updated?: Date;
 }

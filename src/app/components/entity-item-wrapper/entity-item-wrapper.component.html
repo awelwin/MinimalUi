@@ -1,14 +1,24 @@
 <div class="wrapper">
-    <span (click)=click()>
+    <span tabindex="1">
 
         <!-- ENTITY ITEM DISPLAYED HERE -->
         <ng-content></ng-content>
         <!-- END DYNAMIC CONTENT-->
     </span>
 
-    <span class="action-menu" [hidden]="!_menuIsOpen">
-        <i class="bi bi-pencil action-item" (click)=edit()></i>
-        <i class="bi bi-trash3 action-item" (click)=delete()></i>
+    <span class="action-menu">
+
+        <button class="action-menu-toggle" (blur)="toggleMenu()" tabindex="1">
+            <i class="bi bi-three-dots-vertical" [hidden]="_menuIsOpen" (click)=toggleMenu()></i>
+        </button>
+
+
+        <span [hidden]="!_menuIsOpen">
+            <i class="bi bi-pencil action-item" (click)=edit()></i>
+            <i class="bi bi-trash3 action-item" (click)=delete()></i>
+            <i class="bi bi-info-square info-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true"
+                title="id: {{this.entity.id}} created: {{this.entity.created | date:'short'}} updated: {{this.entity.updated | date:'short'}}"></i>
+        </span>
     </span>
-    <span></span>
+
 </div>
