@@ -21,7 +21,6 @@ export class RepositoryServiceFactory {
         //one service instance for one distince rest resource
         let existing = this.singletonInstances.find(x => x._resource === resourceName);
         if (existing != null) {
-            console.log('existing instance found for ' + resourceName)
             return existing;
         }
         else {

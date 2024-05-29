@@ -1,13 +1,12 @@
-import { Component, DestroyRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Employee } from '../../lib/Employee';
 import { CommonModule, NgFor, NgIf, } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ErrorService } from '../../services/ErrorService';
 import { FormsModule } from '@angular/forms';
 import { FilterEmployeeCollectionPipe } from '../../pipes/FilterEmployeeCollectionPipe';
 import { AggregateWrapperComponent } from '../aggregate-wrapper/aggregate-wrapper.component';
 import { EmployeeFullnlamePipe } from '../../pipes/EmployeeFullnamePipe';
-import { Subject, debounceTime } from 'rxjs';
+import { Observable, Subject, catchError, combineLatest, debounceTime, map, of, startWith, switchMap, tap } from 'rxjs';
 import { Action } from '../../lib/Action';
 import { ActionType } from '../../lib/ActionType';
 import { RepositoryServiceFactory } from '../../services/RepositoryServiceFactory';
@@ -23,56 +22,99 @@ import { RepositoryService } from '../../services/RepositoryService';
 export class DashboardComponent implements OnInit {
 
   _repoService!: RepositoryService<Employee>;
-  employees: Employee[] = [];
-  _filterSubject: Subject<string> | null = null;
-  _filter: string = "";
+  _delete$!: Observable<number>;
+  _deleteClicked$!: Subject<Employee>;
+  _filter = "";
+  _filter$ = new Subject<string | undefined | null>();
+  _list$!: Observable<Employee[]>;
+  _listFiltered$!: Observable<Employee[]>;
+  _listFilteredWithActions$!: Observable<Employee[]>;
 
-
+  /** 
+   * CONSTRUCTOR */
   constructor(
-    private destroyRef: DestroyRef,
     private errorService: ErrorService,
     private repoServiceFactory: RepositoryServiceFactory
   ) {
-    console.log('first call ----');
+
     this._repoService = repoServiceFactory.getInstance<Employee>(Employee)
-    console.log(this._repoService.instanceId);
+
+    //--REACTIVE Declarative setup --
+
+    //user actions
+    this._deleteClicked$ = new Subject<Employee>;
+    this._delete$ = this._deleteClicked$
+      .pipe(map(employee => employee.id)); //just id property needed
+
+    //list
+    this._list$ = this._repoService.get()
+      .pipe(catchError(err => { this.errorService.show(err); return of([]); })
+      );
+
+    //list Filtered
+    this._listFiltered$ = combineLatest(
+      [this._filter$?.pipe(startWith(''), debounceTime(900)), this._list$])
+      .pipe(map(
+        ([filter, list]) => this.filterEmployees(list, filter!)));
+
+    //list Filtered + Actions
+    this._listFilteredWithActions$ = combineLatest([this._delete$.pipe(startWith(-1)), this._listFiltered$])
+      .pipe(
+        switchMap(([del, list]) => {
+
+          //delete locally
+          if (del != -1) {
+            let index = list.findIndex(x => x.id === del)
+            if (index > -1)
+              list.splice(index, 1)
+          }
+          return of(list);
+        }));
   }
 
-  ngOnInit() {
+  /**
+   * ngOnInit*/
+  ngOnInit() { }
 
-    //call api
-    this._repoService.get()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (data) => this.employees = data,
-        error: (err) => this.errorService.show(err)
-      });
-
-
-    //subscribe to filter input
-    this._filterSubject = new Subject<string>();
-    this._filterSubject
-      .pipe(debounceTime(300))
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (val) => console.log(val),
-        error: (err) => this.errorService.show(err)
-      });
-  }
-
+  /**
+   * actionTaken
+   * @param action  
+   */
   actionTaken(action: Action<Employee>) {
 
-    //delete from local array
     if (action.actionType == ActionType.Delete) {
-      var index = this.employees.findIndex(x => x.id == action.payload.id);
-      if (index > -1) {
-        this.employees.splice(index, 1);
-      }
+      this._deleteClicked$.next(action.payload);
     }
   }
 
-  filterDebounce(event: any) {
-    this._filterSubject?.next(this._filter);
+  filterChange() {
+    this._filter$?.next(this._filter);
+  }
+
+  /**
+   * filter
+   * @param list list containing searchable objects 
+   * @param value string value to compare to object property vlaues
+   * @returns [] of filtered results
+   */
+  filterEmployees(list: any[] | null, value: string): any[] {
+
+    //validate params
+    if (value == "")
+      return list!;
+
+    if (list == null)
+      return [];
+
+    //search using json string
+    let _results: Employee[] = [];
+    let _value = ""
+    _results = list.filter(
+      (e) => JSON.stringify({ id: e.id, firstname: e.firstname, lastname: e.lastname })
+        .toLowerCase()
+        .includes(value.toLowerCase()));
+
+    return _results;
   }
 }
 
